@@ -13,6 +13,6 @@ link_libraries (
         ${SDLTTF_LIBRARY} # if using SDL_ttf, obviously
         SDLmain # Sadly not included in SDL_LIBRARY variable
 )
-set(CMAKE_CXX_STANDARD 14)
-add_executable(ProgOnCPP Lab1/main.cpp)
+set(CMAKE_CXX_STANDARD 17)
+add_executable(ProgOnCPP Lab1/lab1_1.cpp)
 #target_link_libraries(ProgOnCPP /usr/lib/SDL.h)
