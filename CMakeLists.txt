@@ -14,5 +14,5 @@ link_libraries (
         SDLmain # Sadly not included in SDL_LIBRARY variable
 )
 set(CMAKE_CXX_STANDARD 14)
-add_executable(ProgOnCPP main.cpp)
+add_executable(ProgOnCPP Lab1/main.cpp)
 #target_link_libraries(ProgOnCPP /usr/lib/SDL.h)
