@@ -2,115 +2,155 @@
 // Created by vhundef on 08.02.19.
 //
 
-#include <stdio.h>
-#include <string.h>
-#include <stdlib.h>
-#include <locale.h>
-#include <ctype.h>
 #include <iostream>
+#include <fstream>
+#include <cstring>
+
+using namespace std;
 
 /*
  * Дан файл, содержащий некоторый текст.
  * Удалить из него все фразы, в которых есть слова, содержащие заглавные буквы (начальную заглавную букву в предложении не учитывать).
  */
 
-int countChars(FILE *file) {
-    int counter = 0;
-    while (fgetc(file) != EOF) {  // в цикле проходим весь файл посимвольно
-        counter++; // то увеличиваем счетчик строк
+
+int countStrngs(string *file) {
+    try {
+        cout << "CountStrngs" << endl;
+        int counter = 1;
+        string::iterator i;
+        string strTemp;
+        for (i = file->begin(); i != file->end(); i++) {
+            strTemp = *i;
+            if (strTemp == "\n")
+                counter++;
+        }
+        cout << "countStrngs reported ->" << counter << endl;
+        return counter;
     }
-    fseek(file, 0, SEEK_SET);
-    return counter;
-}
-
-int countStrngs(char *file, int length) {
-    char tmp;
-    int counter = 1, i = 0;
-    while (i < length) {
-        tmp = file[i];
-        i++;
-        if (tmp == '\n')
-            counter++;
-    }
-    return counter;
-}
-
-int findStrStartPos(char *string, int charPos) {
-    int i;
-    for (i = charPos - 1; (int) string[i] != '\n' && i >= 0; i--);
-    return i;
-}
-
-
-void copyStr(char *string, int charPos, char *outstr, int *tmp) {
-    int i = 0;
-    // printf("\n====CopyStr INVOKED====\n");
-    for (i = findStrStartPos(string, charPos) + 1; i <= charPos; i++) {
-        outstr[*tmp] = string[i];
-        *tmp += 1;
-        //     printf("tmp is now%d\n", *tmp);
+    catch (exception &e) {
+        cout << "Произошла ошибка при попытке посчитать количество строк" << endl << e.what() << endl;
+        exit(EXIT_FAILURE);
     }
 }
 
-int checkIfFirst(char *content, int charPos) {
-    // printf("\n=========\nCheckIfFirst\n=========\n");
-    int i;
-    for (i = charPos; content[i] != ' ' && i >= 0; i--) {
-        if ((int) content[i] == '\n') {
-            //          printf("\nPOS:%d\n", i);
-            return 1;
+int findStrStartPos(string *inStr, int charPos) {
+    try {
+        int i = charPos - 1;
+        string::iterator strI;
+        string strTemp;
+        for (strI = inStr->end() - 1; strI != inStr->begin(); strI--) {
+            strTemp = *strI;
+            if (strTemp == "\n")break;
+            i--;
+        }
+        return i;
+    }
+    catch (exception &e) {
+        cout << "Произошла ошибка при попытке найти начальную позицию" << endl << e.what() << endl;
+        exit(EXIT_FAILURE);
+    }
+}
+
+
+void copyStr(string *inStr, int charPos, string *outStr) {
+    try {
+        cout << "CopyStr" << endl;
+        int i = 0;
+        string tmp;
+        string::iterator strI;
+        for (strI = inStr->begin() + findStrStartPos(inStr, charPos);
+             strI != inStr->end() - (inStr->length() - charPos); strI++) {
+            tmp = *strI;
+            *outStr += tmp;
+            i++;
+        }
+        cout << "COPY OK" << endl;
+    }
+    catch (exception &e) {
+        cout << "Произошла ошибка при попытке скопировать строку" << endl << e.what() << endl;
+        exit(EXIT_FAILURE);
+    }
+    cout << "\n-----==-----\n" << *outStr << endl;
+}
+
+bool checkIfFirst(string *content, int charPos) {
+    try {
+        string tmp;
+        string::iterator strI;
+        for (strI = content->begin() + charPos; strI != content->begin(); strI--) {
+            tmp = *strI;
+            if (tmp == " ")break;
+            if (tmp == "\n")return true;
+        }
+        return false;
+    }
+    catch (exception &e) {
+        cout << "Произошла ошибка при попытке проверить заглавный символ" << endl << e.what() << endl;
+        exit(EXIT_FAILURE);
+    }
+}
+
+void findCapitalChars(string *fileContent, int length, string *outstr) {
+    try {
+        cout << "\nFind capital chars" << endl;
+
+        char tmp;
+        int i = 0, totalStrgs = countStrngs(fileContent);
+        bool flag = false;
+        string::iterator strI;
+        for (strI = fileContent->begin() + 1; strI != fileContent->end(); strI++) {
+            tmp = *strI;
+            cout << "Current char: " << tmp << endl;
+            if (isupper(tmp)) {
+                cout << 1 << endl;
+                if (!checkIfFirst(fileContent, i)) {
+                    flag = true;
+                    cout << "Pos " << i << " REM" << endl;
+                }
+            }
+            cout << 2 << endl;
+            if (totalStrgs == 1) {
+                cout << 3 << endl;
+                if (i >= length - 1 && flag == 0) {
+                    cout << 3 << endl;
+                    copyStr(fileContent, i, outstr);
+                }
+            } else {
+                cout << 5 << endl;
+                if ((tmp == '\n') && flag == 0) {
+                    cout << 6 << endl;
+                    copyStr(fileContent, i, outstr);
+                } else if (tmp == '\n') {
+                    cout << 7 << endl;
+                    flag = false;
+                }
+            }
+            i++; // увеличиваем счетчик строк
+            cout << "Итераций осталось " << length - i << endl;
         }
     }
-    //   printf("\n---------\n");
-    return 0;
-}
-
-void findCapitalChars(char *fileContent, int length, char *outstr, int *secTmp) {
-    //   printf("\n=========\nFindCapChars\n=========\n");
-    int i = 1, tmp, flag = 0;
-    while (i < length) {  // в цикле проходим весь файл посимвольно
-        tmp = fileContent[i];
-        //    printf("Current char %c\n", (char) tmp);
-        if (isupper(tmp))
-            if (!checkIfFirst(fileContent, i)) {
-                flag = 1;
-                // printf("TO REM\n");
-            }
-        if (countStrngs(fileContent, length) == 1) {
-            if (i >= length - 1 && flag == 0)
-                copyStr(fileContent, i, outstr, secTmp);
-        } else {
-            if (((char) tmp == '\n') && flag == 0) {
-                copyStr(fileContent, i, outstr, secTmp);
-            } else if (tmp == '\n') {
-                flag = 0;
-                //       printf("+++++++++++++++");
-            }
-        }
-        i++; // то увеличиваем счетчик строк
-//        printf("\nIterations left %d\n", length - i);
+    catch (exception &e) {
+        cout << "Произошла ошибка при попытке найти заглавную букву" << endl << e.what() << endl;
+        exit(EXIT_FAILURE);
     }
-//    printf("\n-------------\n");
 }
 
-
-void fillArray(FILE *file, char *array) {
-    //  printf("\n=========\nFillArray\n=========\n");
-    int i = 0, tmp;
-    while ((tmp = fgetc(file)) != EOF) {  // в цикле проходим весь файл посимвольно
-        // printf("Current char %c\n", (char) tmp);
-        array[i] = (char) tmp;
-        i++; // то увеличиваем счетчик строк
+void filFileContent(string *fileContent, ifstream *file) {
+    char buff[350];
+    while (!file->eof()) {
+        file->getline(buff, 350);
+        fileContent->append(buff);
+        fileContent->append("\n");
+        memset(buff, 0, sizeof(buff));
     }
 }
 
 int main(int argc, char *argv[]) {
-    setlocale(LC_CTYPE, "rus");
-    // Обработка переданных аргументов
-    char *inFileName = NULL, *fileContent = NULL, *outStr = NULL;
 
-    int totalCharsInFile, tmp = 0;
-    FILE *file;
+    string inFileName, fileContent, outStr;
+
+    ifstream fileIn; // Created obj file for read only
 
     //inFileName = argv[1];
     if (argc == 2)
@@ -119,24 +159,31 @@ int main(int argc, char *argv[]) {
     else
         inFileName = "../IN_lab7_1.txt";
 
-    puts(inFileName);
-    // Чтение файла
-    if ((file = fopen(inFileName, "r")) == NULL) {
-        perror("Ошибка открытия файла");
-        return -0xF;
-    }
-    //Считаем количество строк
-    totalCharsInFile = countChars(file);
-    fileContent = (char *) malloc(sizeof(char) * totalCharsInFile);
-    outStr = (char *) malloc(sizeof(char) * totalCharsInFile);
-    fillArray(file, fileContent);
-    findCapitalChars(fileContent, totalCharsInFile, outStr, &tmp);
-    fclose(file);
+    cout << inFileName << " \n";
 
-    file = fopen(inFileName, "w");
-    fputs(outStr, file);
-    fclose(file);
-    printf("\nDone\n");
+    // Чтение файла
+    try {
+        fileIn.open(inFileName);
+        if (!fileIn.is_open()) {
+            throw 1; //Кидаем исключение если файл не открылся
+        }
+    }
+    catch (int errCode) {
+        cout << "Прозошла ошибка при открытии файла\nкод:" << errCode << endl;
+        return errCode;
+    }
+    filFileContent(&fileContent, &fileIn);
+    cout << "GOT \n========\n" << fileContent << "\n==========" << endl << "len " << fileContent.length() << endl;
+    fileIn.close();
+
+    findCapitalChars(&fileContent, fileContent.length(), &outStr);
+
+
+    ofstream fileOut; // Write only
+    fileOut << outStr;  // Записываем, то что на вывод в файл
+    fileOut.close();
+
+    cout << "\nDone" << endl;
     //system("pause");
     return 0;
 }
