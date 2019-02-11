@@ -6,6 +6,7 @@
 #include <iostream>
 #include <fstream>
 #include <cstring>
+#include <locale>
 
 
 using namespace std;
@@ -46,6 +47,7 @@ void filFileContent(string *fileContent, ifstream *file) {
 }
 
 bool checkIfFirst(string *str, int charPos) {
+    cout << "CheckIfFirst charNum " << charPos << endl;
     string tmp;
     string::iterator strI;
     for (strI = str->begin() + charPos; strI != str->begin(); strI--) {
@@ -60,7 +62,7 @@ int findStrStartPos(string *str, int charPos){
     int i = charPos;
     string::iterator strI;
     string strTemp;
-    for (strI = str->end() - 2; i!=0; strI--) {
+    for (strI = str->end() - str->length() + charPos - 1; i != 0; strI--) {
         strTemp = *strI;
         if (strTemp == ".")break;
         i--;
@@ -73,14 +75,23 @@ void copyStr(string *str, int charPos, string * outStr) {
     int i = 0;
     string tmp;
     string::iterator strI;
+    cout << "Char num called startPos: " << charPos << endl;
     cout<<"Before > "<<*outStr<<endl;
     for (strI = str->begin() + findStrStartPos(str, charPos);
-         strI != str->end() - (str->length() - charPos-1); strI++) {
+         strI != str->end() - (str->length() - charPos - 2); strI++) {
         tmp = *strI;
         *outStr += tmp;
         i++;
     }
     cout<<"After > "<<*outStr<<endl;
+}
+
+bool ruIsUpper(char letter) {
+    letter = (unsigned char) letter;
+    bool tmp = (letter >= 1040 && letter <= 1071) || letter == 1025;
+    cout << "RUISUPPER " << (int) letter << endl;
+    cout << "RUISUPPER? " << tmp << endl;
+    return (letter >= 1040 && letter <= 1071) || letter == 1025;
 }
 
 string processData(string *dataToProcess) {
@@ -91,13 +102,13 @@ string processData(string *dataToProcess) {
 
     string::iterator strI;
     for (strI = dataToProcess->begin()+1; strI != dataToProcess->end(); strI++) {
-        tmp = *strI;
+        tmp = static_cast<unsigned char>(*strI);
         cout << "CUR CHAR: " << tmp << endl;
 
-        if (isupper(tmp)) {
+        if (isupper(tmp) || ruIsUpper(tmp)) {
             if (!checkIfFirst(dataToProcess, i)) {
                 flag = true;
-                //cout << "Pos " << i << " REM" << endl;
+                cout << "Pos " << i << " REM" << endl;
             }
         }
         if ((tmp == '.') && flag == 0) {
