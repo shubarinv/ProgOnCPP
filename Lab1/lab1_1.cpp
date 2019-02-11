@@ -85,7 +85,7 @@ void copyStr(string *str, int charPos, string * outStr) {
 
 string processData(string *dataToProcess) {
     char tmp;
-    int i = 0,length=dataToProcess->length();
+    int i = 0;
     bool flag = false;
     string outStr;
 
@@ -97,14 +97,12 @@ string processData(string *dataToProcess) {
         if (isupper(tmp)) {
             if (!checkIfFirst(dataToProcess, i)) {
                 flag = true;
-                cout << "Pos " << i << " REM" << endl;
+                //cout << "Pos " << i << " REM" << endl;
             }
         }
         if ((tmp == '.') && flag == 0) {
-            cout << 6 << endl;
             copyStr(dataToProcess, i, &outStr);
-        } else if (tmp == '\n') {
-            cout << 7 << endl;
+        } else if (tmp == '.') {
             flag = false;
         }
         i++;
