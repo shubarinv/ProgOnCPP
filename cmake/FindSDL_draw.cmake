@@ -23,7 +23,7 @@
 # (To distribute this file outside of CMake, substitute the full
 # License text for the above reference.)
 
-FIND_PATH(SDLGFX_INCLUDE_DIR SDL_draw.h
+FIND_PATH(SDLDRAW_INCLUDE_DIR SDL_draw.h
         HINTS
         $ENV{SDLDRAWDIR}
         $ENV{SDLDIR}
@@ -49,7 +49,7 @@ FIND_PATH(SDLGFX_INCLUDE_DIR SDL_draw.h
         /opt/include
         )
 
-FIND_LIBRARY(SDLGFX_LIBRARY
+FIND_LIBRARY(SDLDRAW_LIBRARY
         NAMES SDL_draw
         HINTS
         $ENV{SDLDRAWDIR}

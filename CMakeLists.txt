@@ -13,7 +13,6 @@ endif ( NOT SDL_FOUND )
 
 link_libraries (
         ${SDL_LIBRARY}
-        ${SDLGFX_LIBRARY}
         ${SDLDRAW_LIBRARY}
         ${SDLTTF_LIBRARY} # if using SDL_ttf, obviously
         SDLmain # Sadly not included in SDL_LIBRARY variable

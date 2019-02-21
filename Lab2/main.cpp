@@ -21,7 +21,7 @@ int main(int argc, char *argv[])
         SDL_Quit();
         return 1;
     }
-    if(!(fnt = TTF_OpenFont("CharisSILR.ttf", 29))){
+    if(!(fnt = TTF_OpenFont("Roboto-Regular.ttf", 29))){
         TTF_Quit();
         SDL_Quit();
         return 3;
@@ -38,9 +38,9 @@ int main(int argc, char *argv[])
         SDL_FreeSurface(text_surface);
         text_surface = NULL;
     }
-
+    Draw_Line(screen,1,2,100,100,255);
     SDL_Flip(screen);
-    //Draw_Circle(screen,200,200,1,234);
+
     while(SDL_WaitEvent(&event)){
         if(event.type == SDL_QUIT ||
            (event.type == SDL_KEYDOWN &&
