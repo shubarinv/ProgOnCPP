@@ -1,5 +1,6 @@
 #include <SDL/SDL.h>
 #include <SDL/SDL_ttf.h>
+#include <SDL/SDL_draw.h>
 
 int main(int argc, char *argv[])
 {
@@ -37,7 +38,9 @@ int main(int argc, char *argv[])
         SDL_FreeSurface(text_surface);
         text_surface = NULL;
     }
+
     SDL_Flip(screen);
+    //Draw_Circle(screen,200,200,1,234);
     while(SDL_WaitEvent(&event)){
         if(event.type == SDL_QUIT ||
            (event.type == SDL_KEYDOWN &&
