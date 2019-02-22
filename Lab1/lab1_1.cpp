@@ -86,7 +86,7 @@ void copyStr(string *str, int charPos, string * outStr) {
     cout<<"After > "<<*outStr<<endl;
 }
 
-bool ruIsUpper(char letter) {
+bool ruIsUpper(unsigned char letter) {
     letter = (unsigned char) letter;
     bool tmp = (letter >= 1040 && letter <= 1071) || letter == 1025;
     cout << "RUISUPPER " << (int) letter << endl;
@@ -95,7 +95,7 @@ bool ruIsUpper(char letter) {
 }
 
 string processData(string *dataToProcess) {
-    char tmp;
+    unsigned char tmp;
     int i = 0;
     bool flag = false;
     string outStr;
