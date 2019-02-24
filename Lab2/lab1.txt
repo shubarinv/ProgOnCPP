@@ -1,4 +1,1 @@
-Test this is just a test.
-This line Should be removed.
-Тест, просто тест.
-Эта Строка должна быть удалена.
+Test this is just a test.Тест, просто тест.Эта Строка должна быть удалена.

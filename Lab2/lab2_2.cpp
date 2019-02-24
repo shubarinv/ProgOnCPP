@@ -5,26 +5,42 @@
 #include <cstdio>
 #include <SDL/SDL.h>
 #include <SDL/SDL_draw.h>
-#include <iostream>
 
-void drawShip(SDL_Surface * where_to_draw,SDL_Rect *shp, int left){ //if not left(-1),then right(1)
-    Sint32 base_color=0xFFB533;
+void drawShip(SDL_Surface *where_to_draw, SDL_Rect *shp, SDL_Rect *cleaner, SDL_Rect *ship_tower, SDL_Rect *flag) {
+    Sint32 base_color = 0xFFB533;
+    SDL_FillRect(where_to_draw, cleaner, 0x0);
+    Draw_Line(where_to_draw, shp->x, shp->y, shp->x - 40, shp->y, 0xFFB533);
+    Draw_Line(where_to_draw, shp->x, shp->y + shp->h - 1, shp->x - 40, shp->y + shp->h - 30, 0xFFB533);
+    SDL_FillRect(where_to_draw, shp, base_color);
+    SDL_FillRect(where_to_draw, ship_tower, base_color);
+    Draw_Line(where_to_draw, shp->x + 100, shp->y, shp->x + 140, shp->y, 0xFFB533);
+    Draw_Line(where_to_draw, shp->x + 100, shp->y + shp->h - 1, shp->x + 140, shp->y + shp->h - 30, 0xFFB533);
+    SDL_FillRect(where_to_draw, flag, 0x0000ff);
 
-    if(left==-1){
-        Draw_FillCircle(where_to_draw,shp->x+shp->w,shp->y+30,40,0x000);
-        SDL_FillRect(where_to_draw, shp, base_color);
-        Draw_FillCircle(where_to_draw,shp->x+shp->w,shp->y+30,30,0xFFB533);
-        Draw_Line(where_to_draw,shp->x,shp->y,shp->x-50,shp->y+30,0x00000FF);
-        Draw_Line(where_to_draw,shp->x,shp->y+shp->h-2,shp->x-50,shp->y+30,0x00000FF);
+    Draw_Line(where_to_draw, shp->x + 30, shp->y - 20, shp->x + 30, shp->y - 80, 0xFFB533);
+    Draw_Line(where_to_draw, shp->x + 125, shp->y, shp->x + 125, shp->y - 50, 0xFFB533);
+
+}
+
+void moveShip(SDL_Rect *shipParts[], int leftright, int speed) {
+    int ship_towerOffsetX = 0, ship_towerOffsetY = -20, flag_OffsetX = -20, flag_OffsetY = -50;
+    //Ship Tower
+    shipParts[1]->x = shipParts[0]->x + ship_towerOffsetX;
+    shipParts[1]->y = shipParts[0]->y + ship_towerOffsetY;
+    //Flag
+
+    if (speed == 0) {
+        shipParts[2]->x = shipParts[0]->x + flag_OffsetX + 150;
+        shipParts[2]->y = shipParts[0]->y + flag_OffsetY;
+    } else {
+        if (leftright == 1) {
+            shipParts[2]->x = shipParts[0]->x + flag_OffsetX + 5;
+            shipParts[2]->y = shipParts[0]->y + flag_OffsetY - 30;
+        } else if (leftright == -1) {
+            shipParts[2]->x = shipParts[0]->x + flag_OffsetX + 50;
+            shipParts[2]->y = shipParts[0]->y + flag_OffsetY - 30;
+        }
     }
-    else{
-        Draw_FillCircle(where_to_draw,shp->x-10,shp->y+30,40,0x000);
-        SDL_FillRect(where_to_draw, shp, base_color);
-        Draw_FillCircle(where_to_draw,shp->x,shp->y+30,30,0xFFB533);
-        Draw_Line(where_to_draw,shp->x+99,shp->y,shp->x+140,shp->y+30,0x00000FF);
-        Draw_Line(where_to_draw,shp->x+99,shp->y+shp->h-2,shp->x+140,shp->y+30,0x00000FF);
-    }
-
 }
 
 int main(int argc, char *argv[]) {
@@ -32,10 +48,13 @@ int main(int argc, char *argv[]) {
     SDL_Event event;
     SDL_Rect r; /* сам прямоугольник*/
     SDL_Rect r_new; /* новое положение прямоугольника*/
+    SDL_Rect cleaner;
+    SDL_Rect ship_tower;
+    SDL_Rect flag;
     Sint16 leftright = 1; /* слева направо = 1, справа налево =-1 */
     Sint16 max_x, max_y;
     int nextstep = 1; /* для цикла обработки сообщений */
-    double movementSpeed=0;
+    double movementSpeed = 0;
     max_x = 1280;
     max_y = 720;
     screen = SDL_SetVideoMode(max_x, max_y, 32,
@@ -50,9 +69,19 @@ int main(int argc, char *argv[]) {
 /* Первоначальное рисование по центру экрана синего прямоугольника с шириной 40 и высотой 20
 пикселей */
     r.x = max_x / 2 - 50;
-    r.y = max_y / 2 - 30;
+    r.y = max_y / 2 - 15;
     r.w = 100;
-    r.h = 60;
+    r.h = 30;
+    cleaner.x = 0;
+    cleaner.y = max_y / 2 - 100;
+    cleaner.h = 150;
+    cleaner.w = max_x;
+    ship_tower.x = max_x / 2;
+    ship_tower.y = max_y / 2;
+    ship_tower.w = 55;
+    ship_tower.h = 20;
+    flag.w = 45;
+    flag.h = 25;
     r_new = r;
     while (nextstep) /* цикл перерисовки и обработки событий */
     {
@@ -62,33 +91,39 @@ int main(int argc, char *argv[]) {
                 (event.type == SDL_KEYDOWN &&
                  event.key.keysym.sym == SDLK_ESCAPE))
                 nextstep = 0; /* Выход */
-            if(event.type==SDL_KEYDOWN&&event.key.keysym.sym==SDLK_DOWN){
-                movementSpeed=0;
+            if (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_DOWN) {
+                movementSpeed = 0;
             }
-            if(event.type==SDL_KEYUP&&event.key.keysym.sym==SDLK_DOWN){
-                movementSpeed=1;
+            if (event.type == SDL_KEYUP && event.key.keysym.sym == SDLK_DOWN) {
+                movementSpeed = 1;
             }
-            if(event.type==SDL_KEYDOWN&&event.key.keysym.sym==SDLK_LEFT){
-                leftright=-1;
-                movementSpeed=1;
+            if (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_LEFT) {
+                leftright = -1;
+                movementSpeed = 1;
             }
-            if(event.type==SDL_KEYDOWN&&event.key.keysym.sym==SDLK_RIGHT){
-                leftright=1;
-                movementSpeed=1;
+            if (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_RIGHT) {
+                leftright = 1;
+                movementSpeed = 1;
             }
         }
 /* расчет перемещения по горизонтали */
-        r_new.x = r.x + 1 * leftright*movementSpeed; /* 1 – скорость перемещения
+        r_new.x = r.x + leftright * movementSpeed; /* 1 – скорость перемещения
 (на сколько пикселей смещаться за один шаг цикла)*/
-        if (r_new.x < 50 || r_new.x + r.w > max_x-50) { /* отскок от стенки */
-            movementSpeed=0;
+        if (r_new.x < 50 || r_new.x + r.w > max_x - 75) { /* отскок от стенки */
+            movementSpeed = 0;
+            if(r_new.x + r.w > max_x - 75){
+                r_new.x=max_x - 75-r.w;
+            }
         }
         r = r_new; /* используем новые координаты */
+        SDL_Rect *shipParts[]{&r, &ship_tower, &flag};
+        moveShip(shipParts, leftright,movementSpeed);
 /* собственно перерисовка: */
         SDL_LockSurface(screen);
-        drawShip(screen,&r,leftright);
+        drawShip(screen, &r, &cleaner, &ship_tower, &flag);
         SDL_UnlockSurface(screen);
         SDL_UpdateRect(screen, 0, 0, max_x, max_y);
+        SDL_Delay(10);
 /* Задержка на опрос событий составляет около 10 мс или более, в зависимости от производительности
 компьютера. При необходимости возможна дополнительная задержка */
     }

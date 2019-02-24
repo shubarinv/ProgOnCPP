@@ -1,76 +1,52 @@
-//
-// Created by vhundef on 21.02.19.
-//
+#include <stdio.h>
+#include <stdlib.h>
+#include <math.h>
 #include <SDL/SDL.h>
-#include <SDL/SDL_ttf.h>
 #include <SDL/SDL_draw.h>
-#include "iostream"
-#include <cmath>
 
-using namespace std;
-
-int getcoordY(int x) {
-    double y;
-    y = ((pow(M_E, -2) / (x - 5))*1000);
-
-    return y;
+void drawsmth(SDL_Surface * screen){
+/* Отображение графика функции отрезками */
+/* screen – инициализированная поверхность для рисования
+640 на 480 пикселей, */
+    const Sint16 width=640, heght=480;
+    double xmin=-32.0, xmax=32.0, ymin, ymax;
+    double mx=10.0, my=10.0, dx=0.1, x1, y1, x2, y2;
+    Sint16 x0scr, y0scr, xscr1, yscr1, xscr2, yscr2;
+    x0scr=floor(-1*xmin*mx);
+/* ymin – неизвестно, так нельзя:
+y0scr=floor(height+ymin*my);
+Используем соглашение о середине экрана: */
+    y0scr=screen->h/2; /*целочисленное деление */
+    for(x1=xmin, x2=xmin+dx;x1<xmax;x1=x2, x2+=dx){
+        if((fabs(x1)-1e-4)>0 && (fabs(x2)-1e-4)>0){
+/*исключение нуля с учетом погрешности */
+            y1=log(fabs(x1)); /*можно исключить повтор вычислений*/
+            y2=log(fabs(x2));
+            xscr1=x0scr+floor(x1*mx);
+            yscr1=y0scr-floor(y1*my);
+            xscr2=x0scr+floor(x2*mx);
+            yscr2=y0scr-floor(y2*my);
+/*Отрезок синим цветом: */
+            Draw_Line(screen,xscr1,yscr1,
+                      xscr2,yscr2,0x0000FF);
+        }
+    }
 }
-
 int main(int argc, char *argv[]) {
     SDL_Surface *screen;
     SDL_Event event;
-    SDL_Rect r; /* сам прямоугольник*/
-    Sint16 max_x, max_y;
-    double nextstep = -5; /* для цикла обработки сообщений */
-    int prevX, prevY;
-/* инициализация библиотеки и установка видеорежима */
-    max_x = 1280;
-    max_y = 720;
-    screen=SDL_SetVideoMode(max_x,max_y,32,SDL_ANYFORMAT);
+    int flag = 0;
+    if (SDL_Init(SDL_INIT_VIDEO)) /* инициализация SDL */
+    { /* При ошибке формируем сообщение и выходим */
+        fprintf(stderr, "Ошибка в SDL_Init: %s\n", SDL_GetError());
+        return 1;
+    }
+/* После инициализации собственно SDL
+и установки atexit(SDL_Quit): */
+    screen = SDL_SetVideoMode(1280, 720, 32, SDL_ANYFORMAT);
     if (!screen) {
         fprintf(stderr, "SDL mode failed: %s\n", SDL_GetError());
-        SDL_Quit();
-        return 1; /* Выход с одним кодом ошибки */
+        return 1;
     }
-
-    r.x = 0;
-    r.y = 0;
-    r.w = max_x;
-    r.h = max_y;
-    SDL_FillRect(screen, &r, 0xFFFFFFFF); /* ярко-синий */
-    prevX = max_x/2;
-    prevY = max_y/2;
-/* цикл перерисовки и обработки событий */
-    while (nextstep <3) {
-        if (SDL_PollEvent(&event)) {
-            if (event.type == SDL_QUIT ||
-                (event.type == SDL_KEYDOWN &&
-                 event.key.keysym.sym == SDLK_ESCAPE))
-                nextstep = 0; /* Выход */
-
-        }
-        Draw_Line(screen, prevX, prevY, prevX + nextstep, prevY + getcoordY(nextstep), 0x0000000FF);
-
-        prevX += nextstep;
-        prevY += getcoordY(nextstep);
-
-        nextstep+=1;
-        /* собственно перерисовка: */
-        SDL_LockSurface(screen);
-        //SDL_FillRect(screen, &r, 0xFFFFFFFF); /* ярко-синий */
-        SDL_UnlockSurface(screen);
-        SDL_UpdateRect(screen, 0, 0, max_x, max_y);
-        /* Задержка на опрос событий составляет около 10 мс или более, в зависимости от
-       производительности компьютера. При необходимости возможна дополнительная задержка */
-    }
-    while(SDL_WaitEvent(&event)){
-        if(event.type == SDL_QUIT ||
-           (event.type == SDL_KEYDOWN &&
-            event.key.keysym.sym == SDLK_ESCAPE)){
-            SDL_Quit();
-            return 0;
-        }
-    }
-    SDL_Quit();
-    return 0; /* Нормальное завершение */
+    drawsmth(screen);
 }
