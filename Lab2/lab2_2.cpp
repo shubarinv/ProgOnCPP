@@ -45,16 +45,16 @@ void moveShip(SDL_Rect *shipParts[], int leftright, int speed) {
 }
 
 int main(int argc, char *argv[]) {
-    SDL_Surface *screen; /* объявление указателя на поверхность: */
+    SDL_Surface *screen; // объявление указателя на поверхность: 
     SDL_Event event;
-    SDL_Rect r; /* сам прямоугольник*/
-    SDL_Rect r_new; /* новое положение прямоугольника*/
+    SDL_Rect r; // основная часть корабля
+    SDL_Rect r_new; // новое положение основной части корабля) 
     SDL_Rect cleaner;
     SDL_Rect ship_tower;
     SDL_Rect flag;
-    Sint16 leftright = 1; /* слева направо = 1, справа налево =-1 */
+    Sint16 leftright = 1; // слева направо = 1, справа налево =-1 
     Sint16 max_x, max_y;
-    int nextstep = 1; /* для цикла обработки сообщений */
+    int nextstep = 1;
     double movementSpeed = 0;
     max_x = 1280;
     max_y = 720;
@@ -63,8 +63,8 @@ int main(int argc, char *argv[]) {
     if (!screen) {
         fprintf(stderr, "SDL mode failed: %s\n", SDL_GetError());
         SDL_Quit();
-        return 1; /* Выход с одним кодом ошибки */
-    }
+        return 1;
+   } 
     // Задаём размер и координаты основной части корабля
     r.x = max_x / 2 - 50;
     r.y = max_y / 2 - 15;
