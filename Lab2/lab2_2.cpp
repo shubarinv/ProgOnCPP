@@ -7,8 +7,10 @@
 #include <SDL/SDL_draw.h>
 
 void drawShip(SDL_Surface *where_to_draw, SDL_Rect *shp, SDL_Rect *cleaner, SDL_Rect *ship_tower, SDL_Rect *flag) {
-    Sint32 base_color = 0xFFB533;
-    SDL_FillRect(where_to_draw, cleaner, 0x0);
+    Sint32 base_color = 0xFFB533; // Основной цвет (желтый)
+
+    SDL_FillRect(where_to_draw, cleaner, 0x0); // Отчищаем экран
+
     Draw_Line(where_to_draw, shp->x, shp->y, shp->x - 40, shp->y, 0xFFB533);
     Draw_Line(where_to_draw, shp->x, shp->y + shp->h - 1, shp->x - 40, shp->y + shp->h - 30, 0xFFB533);
     SDL_FillRect(where_to_draw, shp, base_color);
@@ -16,7 +18,6 @@ void drawShip(SDL_Surface *where_to_draw, SDL_Rect *shp, SDL_Rect *cleaner, SDL_
     Draw_Line(where_to_draw, shp->x + 100, shp->y, shp->x + 140, shp->y, 0xFFB533);
     Draw_Line(where_to_draw, shp->x + 100, shp->y + shp->h - 1, shp->x + 140, shp->y + shp->h - 30, 0xFFB533);
     SDL_FillRect(where_to_draw, flag, 0x0000ff);
-
     Draw_Line(where_to_draw, shp->x + 30, shp->y - 20, shp->x + 30, shp->y - 80, 0xFFB533);
     Draw_Line(where_to_draw, shp->x + 125, shp->y, shp->x + 125, shp->y - 50, 0xFFB533);
 
@@ -64,68 +65,68 @@ int main(int argc, char *argv[]) {
         SDL_Quit();
         return 1; /* Выход с одним кодом ошибки */
     }
-/* В объявленных ранее переменных Sint16 max_x и Sint16 max_y записаны фактическая ширина и вы-
-сота области, в которой перемещается квадратик после установки видеорежима – фрагмент опущен*/
-/* Первоначальное рисование по центру экрана синего прямоугольника с шириной 40 и высотой 20
-пикселей */
+    // Задаём размер и координаты основной части корабля
     r.x = max_x / 2 - 50;
     r.y = max_y / 2 - 15;
     r.w = 100;
     r.h = 30;
+
+    // Задаём размер и координаты прямоугольника стирающего корабль(нужен для удаления следов при движении)
     cleaner.x = 0;
     cleaner.y = max_y / 2 - 100;
     cleaner.h = 150;
     cleaner.w = max_x;
+    // Задаём размер и координаты башни
     ship_tower.x = max_x / 2;
     ship_tower.y = max_y / 2;
     ship_tower.w = 55;
     ship_tower.h = 20;
+    // Задаём размер флага
     flag.w = 45;
     flag.h = 25;
     r_new = r;
-    while (nextstep) /* цикл перерисовки и обработки событий */
+    while (nextstep) // цикл перерисовки и обработки событий
     {
-        if (SDL_PollEvent(&event)) /*если наступило событие*/
+        if (SDL_PollEvent(&event)) // проверяем нажатие клавиш на клавиатуре
         {
             if (event.type == SDL_QUIT ||
                 (event.type == SDL_KEYDOWN &&
                  event.key.keysym.sym == SDLK_ESCAPE))
-                nextstep = 0; /* Выход */
+                nextstep = 0;
             if (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_DOWN) {
-                movementSpeed = 0;
+                movementSpeed = 0; // останавливаем корабль
             }
             if (event.type == SDL_KEYUP && event.key.keysym.sym == SDLK_DOWN) {
                 movementSpeed = 1;
             }
             if (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_LEFT) {
-                leftright = -1;
+                leftright = -1; // поворот налево
                 movementSpeed = 1;
             }
             if (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_RIGHT) {
-                leftright = 1;
+                leftright = 1; // поворот направо
                 movementSpeed = 1;
             }
         }
-/* расчет перемещения по горизонтали */
-        r_new.x = r.x + leftright * movementSpeed; /* 1 – скорость перемещения
-(на сколько пикселей смещаться за один шаг цикла)*/
-        if (r_new.x < 50 || r_new.x + r.w > max_x - 75) { /* отскок от стенки */
+        // расчет перемещения по горизонтали
+        r_new.x = r.x + leftright * movementSpeed; // скорость перемещения и направление движения
+        // (на сколько пикселей смещаться за один шаг цикла)
+
+        if (r_new.x < 50 || r_new.x + r.w > max_x - 75) { // остановка при приближении к краям окна
             movementSpeed = 0;
-            if(r_new.x + r.w > max_x - 75){
-                r_new.x=max_x - 75-r.w;
+            if (r_new.x + r.w > max_x - 75) {
+                r_new.x = max_x - 75 - r.w;
             }
         }
-        r = r_new; /* используем новые координаты */
-        SDL_Rect *shipParts[]{&r, &ship_tower, &flag};
-        moveShip(shipParts, leftright,movementSpeed);
-/* собственно перерисовка: */
+        r = r_new; // обоновляем координаты
+        SDL_Rect *shipParts[]{&r, &ship_tower, &flag}; // Здесь содержатся части корабля
+        moveShip(shipParts, leftright, movementSpeed); // Обновляем координаты частей корабля
+        // собственно перерисовка:
         SDL_LockSurface(screen);
-        drawShip(screen, &r, &cleaner, &ship_tower, &flag);
+        drawShip(screen, &r, &cleaner, &ship_tower, &flag); //Рисуем корабль
         SDL_UnlockSurface(screen);
         SDL_UpdateRect(screen, 0, 0, max_x, max_y);
-        SDL_Delay(10);
-/* Задержка на опрос событий составляет около 10 мс или более, в зависимости от производительности
-компьютера. При необходимости возможна дополнительная задержка */
+        SDL_Delay(movementSpeed * 10); // нужно для замедления движения корабля
     }
     SDL_Quit();
     return 0; /* Нормальное завершение */
