@@ -9,7 +9,7 @@
 void drawShip(SDL_Surface *where_to_draw, SDL_Rect *shp, SDL_Rect *cleaner, SDL_Rect *ship_tower, SDL_Rect *flag) {
     Sint32 base_color = 0xFFB533; // Основной цвет (желтый)
 
-    SDL_FillRect(where_to_draw, cleaner, 0x0); // Отчищаем экран
+    SDL_FillRect(where_to_draw, cleaner, 0x0); // Очищаем экран
 
     Draw_Line(where_to_draw, shp->x, shp->y, shp->x - 40, shp->y, 0xFFB533);
     Draw_Line(where_to_draw, shp->x, shp->y + shp->h - 1, shp->x - 40, shp->y + shp->h - 30, 0xFFB533);
