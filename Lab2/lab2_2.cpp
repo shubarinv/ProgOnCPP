@@ -9,7 +9,7 @@
 void drawShip(SDL_Surface *where_to_draw, SDL_Rect *shp, SDL_Rect *cleaner, SDL_Rect *ship_tower, SDL_Rect *flag) {
     Sint32 base_color = 0xFFB533; // Основной цвет (желтый)
 
-    SDL_FillRect(where_to_draw, cleaner, 0x0); // Отчищаем экран
+    SDL_FillRect(where_to_draw, cleaner, 0x0d34f6); // Очищаем экран
 
     Draw_Line(where_to_draw, shp->x, shp->y, shp->x - 40, shp->y, 0xFFB533);
     Draw_Line(where_to_draw, shp->x, shp->y + shp->h - 1, shp->x - 40, shp->y + shp->h - 30, 0xFFB533);
@@ -17,7 +17,7 @@ void drawShip(SDL_Surface *where_to_draw, SDL_Rect *shp, SDL_Rect *cleaner, SDL_
     SDL_FillRect(where_to_draw, ship_tower, base_color);
     Draw_Line(where_to_draw, shp->x + 100, shp->y, shp->x + 140, shp->y, 0xFFB533);
     Draw_Line(where_to_draw, shp->x + 100, shp->y + shp->h - 1, shp->x + 140, shp->y + shp->h - 30, 0xFFB533);
-    SDL_FillRect(where_to_draw, flag, 0x0000ff);
+    SDL_FillRect(where_to_draw, flag, 0xff7878);
     Draw_Line(where_to_draw, shp->x + 30, shp->y - 20, shp->x + 30, shp->y - 80, 0xFFB533);
     Draw_Line(where_to_draw, shp->x + 125, shp->y, shp->x + 125, shp->y - 50, 0xFFB533);
 
@@ -52,6 +52,7 @@ int main(int argc, char *argv[]) {
     SDL_Rect cleaner;
     SDL_Rect ship_tower;
     SDL_Rect flag;
+    SDL_Rect bg;
     Sint16 leftright = 1; /* слева направо = 1, справа налево =-1 */
     Sint16 max_x, max_y;
     int nextstep = 1; /* для цикла обработки сообщений */
@@ -70,7 +71,11 @@ int main(int argc, char *argv[]) {
     r.y = max_y / 2 - 15;
     r.w = 100;
     r.h = 30;
-
+    bg.w=max_x;
+    bg.h=max_y;
+    bg.x=0;
+    bg.y=0;
+    SDL_FillRect(screen,&bg,0x0d34f6);
     // Задаём размер и координаты прямоугольника стирающего корабль(нужен для удаления следов при движении)
     cleaner.x = 0;
     cleaner.y = max_y / 2 - 100;

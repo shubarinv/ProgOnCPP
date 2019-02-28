@@ -17,4 +17,5 @@ link_libraries (
         SDLmain # Sadly not included in SDL_LIBRARY variable
 )
 set(CMAKE_CXX_STANDARD 17)
-add_executable(ProgOnCPP Lab2/lab2_2.cpp)
+#add_executable(ProgOnCPP Lab2/lab2_1.cpp)
+add_executable(ProgOnCPP Lab2/lab2_1.cpp)
