@@ -6,6 +6,22 @@
 #include <SDL/SDL_ttf.h>
 #include <iostream>
 
+using namespace std;
+
+void drawText(SDL_Surface *whereToDraw, SDL_Surface *text_surface, SDL_Rect text_rect, TTF_Font *fnt, std::string text,
+              int textCoordX, int textCoordY) {
+    SDL_Color text_color;
+    text_color.r = 0;
+    text_color.g = 0;
+    text_color.b = 0;
+    text_rect.x = textCoordX;
+    text_rect.y = textCoordY;
+    text_surface = TTF_RenderUTF8_Solid(fnt, text.c_str(), text_color);
+    SDL_BlitSurface(text_surface, NULL, whereToDraw, &text_rect);
+    SDL_FreeSurface(text_surface);
+    text_surface = NULL;
+}
+
 void drawsmth(SDL_Surface *screen) {
 /* Отображение графика функции отрезками */
 /* screen – инициализированная поверхность для рисования
@@ -13,7 +29,8 @@ void drawsmth(SDL_Surface *screen) {
     double xmin = -5.0, xmax = 3.0;
     double mx = 90, my = 3500, dx = 0.001, x1, y1, x2, y2;
     Sint16 x0scr, y0scr, xscr1, yscr1, xscr2, yscr2;
-    int iter=0;
+    int iter = 0,i=0;
+
     x0scr = floor(-1 * xmin * mx);//floor(-1 * xmin * mx);
 //Используем соглашение о середине экрана:
     y0scr = screen->h / 2; /*целочисленное деление */
@@ -34,21 +51,9 @@ void drawsmth(SDL_Surface *screen) {
             iter++;
         }
     }
-    std::cout<<"iterations"<<iter<<std::endl;
+    std::cout << "iterations" << iter << std::endl;
 }
 
-void drawText(SDL_Surface * whereToDraw,SDL_Surface* text_surface,SDL_Rect text_rect,TTF_Font*fnt,std::string text,int textCoordX,int textCoordY) {
-    SDL_Color text_color;
-    text_color.r = 0;
-    text_color.g = 0;
-    text_color.b = 0;
-    text_rect.x=textCoordX;
-    text_rect.y=textCoordY;
-    text_surface = TTF_RenderUTF8_Solid(fnt, text.c_str(), text_color);
-    SDL_BlitSurface(text_surface, NULL, whereToDraw, &text_rect);
-    SDL_FreeSurface(text_surface);
-    text_surface = NULL;
-}
 
 int main(int argc, char *argv[]) {
     SDL_Surface *screen;
@@ -63,8 +68,9 @@ int main(int argc, char *argv[]) {
         fprintf(stderr, "Ошибка в SDL_Init: %s\n", SDL_GetError());
         return 1;
     }
-    if (TTF_Init())
+    if (TTF_Init()) {
         return 1;
+    }
 /* После инициализации собственно SDL
 и установки atexit(SDL_Quit): */
     screen = SDL_SetVideoMode(720, 480, 32, SDL_ANYFORMAT);
@@ -72,26 +78,36 @@ int main(int argc, char *argv[]) {
         fprintf(stderr, "SDL mode failed: %s\n", SDL_GetError());
         return 1;
     }
+
     if (!(fnt = TTF_OpenFont("Roboto-Regular.ttf", 18))) {
         TTF_Quit();
         SDL_Quit();
         return 3;
     }
+
     bg.w = 720;
     bg.h = 480;
+
     text_color.r = 0;
     text_color.g = 0;
     text_color.b = 0;
+
     text_rect.w = 1;
     text_rect.h = 1;
+
     SDL_FillRect(screen, &bg, 0xfffffff);
+
     drawText(screen,text_surface,text_rect,fnt,"-5",0,screen->h / 2);
     drawText(screen,text_surface,text_rect,fnt,"0",screen->w / 2 + 5,screen->h / 2);
     drawText(screen,text_surface,text_rect,fnt,"3",screen->w-10,screen->h / 2);
+
     SDL_Flip(screen);
+
     drawsmth(screen);
+
     Draw_Line(screen, 0, screen->h / 2, screen->w, screen->h / 2, 0x0);
     Draw_Line(screen, screen->w / 2, 0, screen->w / 2, screen->h, 0x0);
+
     while (true) // цикл перерисовки и обработки событий
     {
         if (SDL_PollEvent(&event)) // проверяем нажатие клавиш на клавиатуре
