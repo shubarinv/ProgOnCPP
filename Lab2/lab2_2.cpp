@@ -1,6 +1,8 @@
-//
-// Created by vhundef on 21.02.19.
-//
+/* Copyright (C) Vladimir Shubarin - All Rights Reserved
+ * Unauthorized copying of this file, via any medium is strictly prohibited
+ * Proprietary and confidential
+ * Written by Vladimir Shubarin <vhundef@gmail.com>, Feb 2019
+ */
 
 #include <cstdio>
 #include <SDL/SDL.h>
