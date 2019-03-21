@@ -15,8 +15,8 @@
 
 class triangle {
 public:
-    double findAllSides();
     double findHeight();
+    void init();
     bool operator==(triangle &tr);
     bool operator^(triangle &tr);
 
@@ -32,9 +32,9 @@ private:
             return angleC;
         else return angleA;
     }
-    void findAllAngles(){
-        throw ;
-    }
+
+    void * findAllAngles(double*, double*);
+    void findSideC(double *);
 };
 
 
