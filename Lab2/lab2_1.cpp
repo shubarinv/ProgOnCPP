@@ -28,11 +28,10 @@ void drawText(SDL_Surface *whereToDraw, SDL_Surface *text_surface, SDL_Rect text
     text_surface = NULL;
 }
 
-void drawsmth(SDL_Surface *screen) {
+void drawsmth(SDL_Surface *screen,double xmin,double xmax) {
 /* Отображение графика функции отрезками */
 /* screen – инициализированная поверхность для рисования
 640 на 480 пикселей, */
-    double xmin = -5.0, xmax = 3.0;
     double mx = 90, my = 3500, dx = 0.001, x1, y1, x2, y2;
     Sint16 x0scr, y0scr, xscr1, yscr1, xscr2, yscr2;
     int iter = 0,i=0;
@@ -41,12 +40,15 @@ void drawsmth(SDL_Surface *screen) {
 //Используем соглашение о середине экрана:
     y0scr = screen->h / 2; /*целочисленное деление */
     for (x1 = xmin, x2 = xmin + dx; x1 < xmax; x1 = x2, x2 += dx) {
+        if(x1==4||x1==5||x2==4||x2==5)
+            continue;
         if ((fabs(x1) - 1e-4) > 0 && (fabs(x2) - 1e-4) > 0) {
 /*исключение нуля с учетом погрешности */
             y1 = -(pow(M_E, -2) / (5 - x1)); /*можно исключить повтор вычислений*/
             y2 = -(pow(M_E, -2) / (5 - x2));
-            std::cout << "=======" << std::endl << "y1: " << y1 << std::endl << "y2: " << y2 << std::endl << "========"
-                      << std::endl;
+            std::cout << "=======" << std::endl << "x1: " << x1 << std::endl << "x2: " << x2 << std::endl;
+            std::cout << "y1: " << y1 << std::endl << "y2: " << y2 << std::endl << "========" << std::endl;
+
             xscr1 = x0scr + floor(x1 * mx);
             yscr1 = y0scr - floor(y1 * my);
             xscr2 = x0scr + floor(x2 * mx);
@@ -108,8 +110,12 @@ int main(int argc, char *argv[]) {
     drawText(screen,text_surface,text_rect,fnt,"3",screen->w-10,screen->h / 2);
 
     SDL_Flip(screen);
-
-    drawsmth(screen);
+    double xmin,xmax;
+    cout<<"xmin: ";
+    cin>>xmin;
+    cout<<endl<<"xmax: ";
+    cin>>xmax;
+    drawsmth(screen,xmin,xmax);
 
     Draw_Line(screen, 0, screen->h / 2, screen->w, screen->h / 2, 0x0);
     Draw_Line(screen, screen->w / 2, 0, screen->w / 2, screen->h, 0x0);
