@@ -2,105 +2,83 @@
 // Created by vhund on 24.03.2019.
 //
 
-
 #ifndef PROGONCPP_STACK_H
 #define PROGONCPP_STACK_H
 
-#include <iostream>
 #include <iomanip>
+#include <iostream>
 
 using namespace std;
 typedef int DataType;
 
-template<class Tdata>
-class Stack {
+template <class Tdata> class Stack {
 private:
-    struct Element {
-        Tdata data;
-        Element *next;
-    } *pstack,*top;
+  struct Element {
+    Tdata data;
+    Element *next;
+  } * pstack, *top;
 
 public:
-    ~Stack();
-    Stack() {
-        pstack = nullptr;
-    }
+  Stack() { pstack = nullptr; }
 
-    int Empty();
+  ~Stack();
 
-    Tdata Top();
+  int Empty();
 
-    Tdata Pop();
+  Tdata Top();
 
-    int Push(Tdata x);
+  Tdata Pop();
 
-    Tdata showData();
+  int Push(Tdata x);
 
-    void next();
+  Tdata showData();
 
-    void setData(Tdata);
+  void next();
 
-    void resetPstackToTop();
+  void setData(Tdata);
 
+  void resetPstackToTop();
 };
 
-template<class Tdata>
-Stack<Tdata>::~Stack() {
-    Element *temp;
-    while (pstack) {
-        temp = pstack;
-        pstack = pstack->next;
-        top=pstack->next;
-        delete temp;
-    }
-}
-
-template<class Tdata>
-int Stack<Tdata>::Empty() {
-    return pstack == nullptr;
-}
-
-template<class Tdata>
-Tdata Stack<Tdata>::Top() {
-    return pstack->data;
-}
-
-template<class Tdata>
-Tdata Stack<Tdata>::Pop() {
-    Element *del = pstack;
-    DataType temp = pstack->data;
+template <class Tdata> Stack<Tdata>::~Stack() {
+  Element *temp;
+  while (pstack) {
+    temp = pstack;
     pstack = pstack->next;
-    delete del;
-    return temp;
+    top = pstack->next;
+    delete temp;
+  }
 }
 
-template<class Tdata>
-int Stack<Tdata>::Push(Tdata x) {
-    auto ins = new(nothrow) Element;
-    if (ins == NULL) return 0;
-    ins->data = x;
-    ins->next = pstack;
-    pstack = ins;
-    top=pstack;
-    return 1;
+template <class Tdata> int Stack<Tdata>::Empty() { return pstack == nullptr; }
+
+template <class Tdata> Tdata Stack<Tdata>::Top() { return pstack->data; }
+
+template <class Tdata> Tdata Stack<Tdata>::Pop() {
+  Element *del = pstack;
+  DataType temp = pstack->data;
+  pstack = pstack->next;
+  delete del;
+  return temp;
 }
 
-template<class Tdata>
-Tdata Stack<Tdata>::showData() {
-    return pstack->data;
+template <class Tdata> int Stack<Tdata>::Push(Tdata x) {
+  auto ins = new (nothrow) Element;
+  if (ins == NULL)
+    return 0;
+  ins->data = x;
+  ins->next = pstack;
+  pstack = ins;
+  top = pstack;
+  return 1;
 }
 
-template<class Tdata>
-void Stack<Tdata>::next() {
-    pstack = pstack->next;
-}
+template <class Tdata> Tdata Stack<Tdata>::showData() { return pstack->data; }
 
-template<class Tdata>
-void Stack<Tdata>::setData(Tdata newData) {
-    pstack->data=newData;
+template <class Tdata> void Stack<Tdata>::next() { pstack = pstack->next; }
+
+template <class Tdata> void Stack<Tdata>::setData(Tdata newData) {
+  pstack->data = newData;
 }
-template<class Tdata>
-void Stack<Tdata>::resetPstackToTop() {
-pstack=top;
-}
-#endif //PROGONCPP_STACK_H
+template <class Tdata> void Stack<Tdata>::resetPstackToTop() { pstack = top; }
+#endif // PROGONCPP_STACK_H
