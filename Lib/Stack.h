@@ -19,12 +19,12 @@ private:
         Tdata data;
         Element *next;
     } *pstack,*top;
+
 public:
+    ~Stack();
     Stack() {
         pstack = nullptr;
     }
-
-    ~Stack();
 
     int Empty();
 

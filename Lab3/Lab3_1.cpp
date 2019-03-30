@@ -18,18 +18,19 @@ using namespace std;
 
 
 void triangle::findSideC(double * sideC) {
+
     *sideC = sqrt(pow(sideB, 2) + pow(sideA, 2) - 2 * sideB * sideA * cos(angleA));
-    cout<<"------------"<<endl;
+    cout<<"----Функция нахождения сторон-----"<<endl;
     cout<<"Side A= "<<sideA<<endl;
     cout<<"Side B= "<<sideB<<endl;
     cout<<"Side C= "<<*sideC<<endl;
     cout<<"------------"<<endl;
 }
 
-void * triangle::findAllAngles(double *angleB, double *angleC) {
+void triangle::findAllAngles(double *angleB, double *angleC) {
     *angleB=(pow(sideA,2)-pow(sideC,2)+pow(sideB,2))/(2*sideA*sideB);
     *angleC=(pow(sideA,2)-pow(sideB,2)+pow(sideC,2))/(2*sideA*sideC);
-    cout<<"------------"<<endl;
+    cout<<"----Функция нахождения углов-----"<<endl;
     cout<<"Angle A= "<<angleA<<endl;
     cout<<"Angle B= "<<*angleB<<endl;
     cout<<"Angle C= "<<*angleC<<endl;
@@ -37,6 +38,7 @@ void * triangle::findAllAngles(double *angleB, double *angleC) {
 
 }
 double triangle::findHeight() {
+    cout<<"----Функция нахождения высоты-----"<<endl;
     double p=0.5*(sideA+sideB+sideC);
     double divs=findMaxAngle();
     if(divs==angleA)
@@ -68,6 +70,9 @@ bool triangle::operator==(triangle &tr) {
 }
 
 bool triangle::operator^(triangle &tr) {
+    cout<<"----Перегрузка оператора возведения в степень-----"<<endl;
+    tr.findAllAngles(&tr.angleB,&tr.angleC);
+    tr.findSideC(&tr.sideC);
     if((angleA==tr.angleA&&angleB==tr.angleB)||(angleA==tr.angleA&&angleC==tr.angleC)||(angleB==tr.angleB&&angleC==tr.angleC))
         return true;
     else if((sideC/tr.sideC==sideA/tr.sideA)&&angleA==tr.angleA)
@@ -79,7 +84,7 @@ bool triangle::operator^(triangle &tr) {
     else return sideA / tr.sideA == sideB / tr.sideB == sideC / tr.sideC;
 }
 
-void triangle::init(){
+triangle::triangle(){
     cout<<"Ввдите длинну стороны1: ";
     cin>>sideA;
     cout<<endl<<"Ввдите длинну стороны2: ";
@@ -87,7 +92,11 @@ void triangle::init(){
     cout<<endl<<"Ввдите угол: ";
     cin>>angleA;
     angleA=angleA*M_PI/180;
-    findSideC(&sideC);
-    findAllAngles(&angleB,&angleC);
 }
-
+triangle::triangle(double SideA,double SideB,double AngleA){
+    cout<<"side1= "<<SideA<<endl<<"side2= "<<SideB<<endl<<"angle1= "<<AngleA<<endl;
+    sideA=SideA;
+    sideB=SideB;
+    angleA=AngleA;
+    angleA=angleA*M_PI/180;
+}

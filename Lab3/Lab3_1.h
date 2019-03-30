@@ -16,13 +16,19 @@
 class triangle {
 public:
     double findHeight();
-    void init();
     bool operator==(triangle &tr);
     bool operator^(triangle &tr);
-
-private:
+    triangle();
+    triangle(double,double, double);
+    void findAllAngles(double*, double*);
+    void findSideC(double *);
+    /*
+    void findAllAngles();
+    void findSideC();
+     */
     double sideA, sideB, sideC, angleA, angleB, angleC;
 
+private:
     double findMaxAngle(){
         if (angleA>angleB&&angleA>angleC)
             return angleA;
@@ -32,9 +38,6 @@ private:
             return angleC;
         else return angleA;
     }
-
-    void * findAllAngles(double*, double*);
-    void findSideC(double *);
 };
 
 
