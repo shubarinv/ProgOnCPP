@@ -14,32 +14,44 @@
 #ifndef PROGONCPP_LAB3_1_H
 #define PROGONCPP_LAB3_1_H
 
+#include <iostream>
+
 class triangle {
 public:
-  double findHeight();
-  bool operator==(triangle &tr);
-  bool operator^(triangle &tr);
-  triangle();
-  triangle(double, double, double);
-  void findAllAngles(double *, double *);
-  void findSideC(double *);
-  /*
-  void findAllAngles();
-  void findSideC();
-   */
-  double sideA, sideB, sideC, angleA, angleB, angleC;
+	double findHeight();
 
+	bool operator==(triangle &tr);
+
+	bool operator^(triangle &tr);
+
+	triangle();
+
+	triangle(double, double, double);
+
+	void findAllAngles(double *, double *);
+	void findAllAngles();
+
+	void findSideC(double *);
+	void findSideC();
+
+	double sideA, sideB, sideC, angleA, angleB, angleC;
+	void clearBuff() {       ///< @brief Чистит буфер
+		std::cin.clear();           // Restore input stream to working state
+		std::cin.ignore(100, '\n'); // Get rid of any garbage that user might have entered}
+	}
 private:
-  double findMaxAngle() {
-    if (angleA > angleB && angleA > angleC)
-      return angleA;
-    if (angleB > angleA && angleB > angleC)
-      return angleB;
-    if (angleC > angleA && angleC > angleB)
-      return angleC;
-    else
-      return angleA;
-  }
+
+
+	double findMaxAngle() {
+		if (angleA > angleB && angleA > angleC)
+			return angleA;
+		if (angleB > angleA && angleB > angleC)
+			return angleB;
+		if (angleC > angleA && angleC > angleB)
+			return angleC;
+		else
+			throw;
+	}
 };
 
 #endif // PROGONCPP_LAB3_1_H

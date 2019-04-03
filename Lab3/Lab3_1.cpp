@@ -17,94 +17,109 @@
 
 using namespace std;
 
-void triangle::findSideC(double *sideC) {
 
-  *sideC =
-      sqrt(pow(sideB, 2) + pow(sideA, 2) - 2 * sideB * sideA * cos(angleA));
-  cout << "----Функция нахождения сторон-----" << endl;
-  cout << "Side A= " << sideA << endl;
-  cout << "Side B= " << sideB << endl;
-  cout << "Side C= " << *sideC << endl;
-  cout << "------------" << endl;
+void triangle::findSideC() {
+	sideC = sqrt(pow(sideB, 2) + pow(sideA, 2) - 2 * sideB * sideA * cos(angleA));
+	cout << "----Функция нахождения сторон-----" << endl;
+	cout << "Side A= " << sideA << endl;
+	cout << "Side B= " << sideB << endl;
+	cout << "Side C= " << sideC << endl;
+	cout << "------------" << endl;
 }
 
-void triangle::findAllAngles(double *angleB, double *angleC) {
-  *angleB =
-      (pow(sideA, 2) - pow(sideC, 2) + pow(sideB, 2)) / (2 * sideA * sideB);
-  *angleC =
-      (pow(sideA, 2) - pow(sideB, 2) + pow(sideC, 2)) / (2 * sideA * sideC);
-  cout << "----Функция нахождения углов-----" << endl;
-  cout << "Angle A= " << angleA << endl;
-  cout << "Angle B= " << *angleB << endl;
-  cout << "Angle C= " << *angleC << endl;
-  cout << "------------" << endl;
+void triangle::findAllAngles() {
+	angleB = (pow(sideC, 2) + pow(sideA, 2) - pow(sideB, 2)) / (2.0 * sideC * sideA);
+	angleC = (pow(sideB, 2) + pow(sideC, 2) - pow(sideA, 2)) / (2.0 * sideC * sideB);
+	cout << "----Функция нахождения углов-----" << endl;
+	cout << "res " << (pow(sideA, 2) - pow(sideC, 2) + pow(sideB, 2)) / (2 * sideA * sideB) << endl;
+	cout << "Angle A= " << (angleA / M_PI) * 180 << endl;
+	cout << "Angle B= " << (angleB / M_PI) * 180 << endl;
+	cout << "Angle C= " << (angleC / M_PI) * 180 << endl;
+	cout << "------------" << endl;
+	if ((((180 - (angleA + angleB)) != angleC) && ((180 - (angleA + angleC)) != angleB)) ||
+	    (angleA + angleB + angleC < 179.9)) {
+		throw logic_error("UNEXPECTED RESULT");
+	}
 }
+
 double triangle::findHeight() {
-  cout << "----Функция нахождения высоты-----" << endl;
-  double p = 0.5 * (sideA + sideB + sideC);
-  double divs = findMaxAngle();
-  if (divs == angleA)
-    divs = sideA;
-  else if (divs == angleB)
-    divs = sideB;
-  else
-    divs = sideC;
-  double h = (2 * sqrt(p * (p - sideA) * (p - sideB) * (p - sideC))) / divs;
-  return h;
+	cout << "----Функция нахождения высоты-----" << endl;
+	double p = 0.5 * (sideA + sideB + sideC);
+	double divs = findMaxAngle();
+	if (divs == angleA)
+		divs = sideA;
+	else if (divs == angleB)
+		divs = sideB;
+	else
+		divs = sideC;
+	double h = (2 * sqrt(p * (p - sideA) * (p - sideB) * (p - sideC))) / divs;
+	return h;
 }
 
 bool triangle::operator==(triangle &tr) {
-  tr.findAllAngles(&tr.angleB, &tr.angleC);
-  tr.findSideC(&tr.sideC);
-  if (sideC == tr.sideC && angleA == tr.angleA && sideA == tr.sideA)
-    return true;
-  else if (sideA == tr.sideA && angleB == tr.angleB && sideB == tr.sideB)
-    return true;
-  else if (sideB == tr.sideB && angleC == tr.angleC && sideC == tr.sideC)
-    return true;
-  else if (angleC == tr.angleC && sideA == tr.sideA && angleA == tr.angleA)
-    return true;
-  else if (angleA == tr.angleA && sideB == tr.sideB && angleB == tr.angleB)
-    return true;
-  else if (angleB == tr.angleB && sideC == tr.sideC && angleC == tr.angleC)
-    return true;
-  else
-    return sideA == tr.sideA && sideB == tr.sideB && sideC == tr.sideC;
+	tr.findSideC();
+	tr.findAllAngles();
+	if (sideC == tr.sideC && angleA == tr.angleA && sideA == tr.sideA)
+		return true;
+	else if (sideA == tr.sideA && angleB == tr.angleB && sideB == tr.sideB)
+		return true;
+	else if (sideB == tr.sideB && angleC == tr.angleC && sideC == tr.sideC)
+		return true;
+	else if (angleC == tr.angleC && sideA == tr.sideA && angleA == tr.angleA)
+		return true;
+	else if (angleA == tr.angleA && sideB == tr.sideB && angleB == tr.angleB)
+		return true;
+	else if (angleB == tr.angleB && sideC == tr.sideC && angleC == tr.angleC)
+		return true;
+	else
+		return sideA == tr.sideA && sideB == tr.sideB && sideC == tr.sideC;
 }
 
 bool triangle::operator^(triangle &tr) {
-  cout << "----Перегрузка оператора возведения в степень-----" << endl;
-  tr.findAllAngles(&tr.angleB, &tr.angleC);
-  tr.findSideC(&tr.sideC);
-  if ((angleA == tr.angleA && angleB == tr.angleB) ||
-      (angleA == tr.angleA && angleC == tr.angleC) ||
-      (angleB == tr.angleB && angleC == tr.angleC))
-    return true;
-  else if ((sideC / tr.sideC == sideA / tr.sideA) && angleA == tr.angleA)
-    return true;
-  else if ((sideA / tr.sideA == sideB / tr.sideB) && angleB == tr.angleB)
-    return true;
-  else if ((sideB / tr.sideB == sideC / tr.sideC) && angleC == tr.angleC)
-    return true;
-  else
-    return sideA / tr.sideA == sideB / tr.sideB == sideC / tr.sideC;
+	cout << "----Перегрузка оператора возведения в степень-----" << endl;
+	tr.findSideC();
+	tr.findAllAngles();
+
+	if ((angleA == tr.angleA && angleB == tr.angleB) ||
+	    (angleA == tr.angleA && angleC == tr.angleC) ||
+	    (angleB == tr.angleB && angleC == tr.angleC))
+		return true;
+	else if ((sideC / tr.sideC == sideA / tr.sideA) && angleA == tr.angleA)
+		return true;
+	else if ((sideA / tr.sideA == sideB / tr.sideB) && angleB == tr.angleB)
+		return true;
+	else if ((sideB / tr.sideB == sideC / tr.sideC) && angleC == tr.angleC)
+		return true;
+	else
+		return sideA / tr.sideA == sideB / tr.sideB == sideC / tr.sideC;
 }
 
 triangle::triangle() {
-  cout << "Ввдите длинну стороны1: ";
-  cin >> sideA;
-  cout << endl << "Ввдите длинну стороны2: ";
-  cin >> sideB;
-  cout << endl << "Ввдите угол: ";
-  cin >> angleA;
-  angleA = angleA * M_PI / 180;
+	double tmp;
+	cout << "Ввдите длинну стороны1: ";
+	cin >> sideA;
+	clearBuff();
+	cout << endl << "Ввдите длинну стороны2: ";
+	cin >> sideB;
+	clearBuff();
+	cout << endl << "Ввдите угол: ";
+	cin >> tmp;
+	while (tmp >= 180) {
+		cout << "Не по ГОСТу" << endl;
+		cin >> tmp;
+		clearBuff();
+	}
+	angleA = tmp;
+	clearBuff();
+	angleA = angleA * M_PI / 180;
 }
+
 triangle::triangle(double SideA, double SideB, double AngleA) {
-  cout << "side1= " << SideA << endl
-       << "side2= " << SideB << endl
-       << "angle1= " << AngleA << endl;
-  sideA = SideA;
-  sideB = SideB;
-  angleA = AngleA;
-  angleA = angleA * M_PI / 180;
+	cout << "side1= " << SideA << endl
+	     << "side2= " << SideB << endl
+	     << "angle1= " << AngleA << endl;
+	sideA = SideA;
+	sideB = SideB;
+	angleA = AngleA;
+	angleA = angleA * M_PI / 180;
 }

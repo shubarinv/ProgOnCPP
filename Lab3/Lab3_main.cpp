@@ -20,8 +20,8 @@ int main() {
   triangle tr1;
   system("clear");
   cout << "Задайте второй треугольник" << endl;
-  triangle tr2(3.0, 4, 30.0);
-  while (menu != '9') {
+  triangle tr2(12, 5, 90.0);
+  while (menu != '0') {
 
     cout << "1. Найти стороны первого треугольника" << endl;
     cout << "2. Найти углы первого треугольника" << endl;
@@ -31,18 +31,19 @@ int main() {
     cout << "6. Найти высоту второго треугольника" << endl;
     cout << "7. Сравнить на равенство" << endl;
     cout << "8. Сравнить на подобие" << endl;
-    cout << "9. Выйти" << endl;
+    cout << "9. Copy" << endl;
+    cout << "0. Quit" << endl;
 
     cin >> menu;
     clearBuff();
     switch (menu) {
     case '1':
       system("clear");
-      tr1.findSideC(&tr1.sideC);
+      tr1.findSideC();
       break;
     case '2':
       system("clear");
-      tr1.findAllAngles(&tr1.angleA, &tr1.angleC);
+      tr1.findAllAngles();
       break;
     case '3':
       system("clear");
@@ -50,11 +51,11 @@ int main() {
       break;
     case '4':
       system("clear");
-      tr2.findSideC(&tr2.sideC);
+      tr2.findSideC();
       break;
     case '5':
       system("clear");
-      tr2.findAllAngles(&tr2.angleA, &tr2.angleC);
+      tr2.findAllAngles();
       break;
     case '6':
       system("clear");
@@ -74,8 +75,8 @@ int main() {
     case '9':
       system("clear");
       triangle tr3 = tr1;
-      tr3.findSideC(&tr3.sideC);
-      tr3.findAllAngles(&tr3.angleA, &tr3.angleC);
+      tr3.findSideC();
+      tr3.findAllAngles();
       break;
     }
   }
