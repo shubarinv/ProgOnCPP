@@ -17,6 +17,9 @@
 
 using namespace std;
 
+double radToDeg(double rad) {
+	return round((rad / M_PI) * 180);
+}
 
 void triangle::findSideC() {
 	sideC = sqrt(pow(sideB, 2) + pow(sideA, 2) - 2 * sideB * sideA * cos(angleA));
@@ -31,13 +34,15 @@ void triangle::findAllAngles() {
 	angleB = (pow(sideC, 2) + pow(sideA, 2) - pow(sideB, 2)) / (2.0 * sideC * sideA);
 	angleC = (pow(sideB, 2) + pow(sideC, 2) - pow(sideA, 2)) / (2.0 * sideC * sideB);
 	cout << "----Функция нахождения углов-----" << endl;
-	cout << "res " << (pow(sideA, 2) - pow(sideC, 2) + pow(sideB, 2)) / (2 * sideA * sideB) << endl;
-	cout << "Angle A= " << (angleA / M_PI) * 180 << endl;
-	cout << "Angle B= " << (angleB / M_PI) * 180 << endl;
-	cout << "Angle C= " << (angleC / M_PI) * 180 << endl;
+	cout << "res " << (pow(sideC, 2) + pow(sideA, 2) - pow(sideB, 2)) / (2.0 * sideC * sideA) << endl;
+	cout << "res " << (pow(sideB, 2) + pow(sideC, 2) - pow(sideA, 2)) / (2.0 * sideC * sideB) << endl;
+	cout << "Angle A= " << radToDeg(angleA) << endl;
+	cout << "Angle B= " << radToDeg(angleB) << endl;
+	cout << "Angle C= " << radToDeg(angleC) << endl;
 	cout << "------------" << endl;
-	if ((((180 - (angleA + angleB)) != angleC) && ((180 - (angleA + angleC)) != angleB)) ||
-	    (angleA + angleB + angleC < 179.9)) {
+	if ((((180 - (radToDeg(angleA) + radToDeg(angleB))) != radToDeg(angleC)) &&
+	     ((180 - (radToDeg(angleA) + radToDeg(angleC))) != radToDeg(angleB))) ||
+	    (radToDeg(angleA) + radToDeg(angleB) + radToDeg(angleC) < 179.9)) {
 		throw logic_error("UNEXPECTED RESULT");
 	}
 }
