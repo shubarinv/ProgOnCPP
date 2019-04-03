@@ -10,13 +10,15 @@ using namespace std;
 
 class str {
 private:
-    char *allocatedmemory;
-    int strlength;
-public:
-    str();
-    str(String);
+  char *allocatedmemory{allocatedmemory = nullptr};
+  int strlength{strlength = 0};
 
+public:
+  str();
+  str(char *);
+  str(str &obj);
+  ~str();
+  str &operator=(const str &str2);
 };
 
-
-#endif //PROGONCPP_STR_H
+#endif // PROGONCPP_STR_H

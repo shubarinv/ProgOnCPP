@@ -22,7 +22,7 @@ double radToDeg(double rad) {
 }
 
 void triangle::findSideC() {
-	sideC = sqrt(pow(sideB, 2) + pow(sideA, 2) - 2 * sideB * sideA * cos(angleA));
+	sideC = sqrt(pow(sideB, 2) + pow(sideA, 2) - 2 * sideB * sideA * cos(angleB));
 	cout << "----Функция нахождения сторон-----" << endl;
 	cout << "Side A= " << sideA << endl;
 	cout << "Side B= " << sideB << endl;
@@ -31,7 +31,7 @@ void triangle::findSideC() {
 }
 
 void triangle::findAllAngles() {
-	angleB = (pow(sideC, 2) + pow(sideA, 2) - pow(sideB, 2)) / (2.0 * sideC * sideA);
+	angleA = (pow(sideA, 2) + pow(sideC, 2) - pow(sideB, 2)) / (2.0 * sideA * sideC);
 	angleC = (pow(sideB, 2) + pow(sideC, 2) - pow(sideA, 2)) / (2.0 * sideC * sideB);
 	cout << "----Функция нахождения углов-----" << endl;
 	cout << "res " << (pow(sideC, 2) + pow(sideA, 2) - pow(sideB, 2)) / (2.0 * sideC * sideA) << endl;
@@ -114,17 +114,17 @@ triangle::triangle() {
 		cin >> tmp;
 		clearBuff();
 	}
-	angleA = tmp;
+	angleB = tmp;
 	clearBuff();
-	angleA = angleA * M_PI / 180;
+	angleB = angleB * M_PI / 180;
 }
 
-triangle::triangle(double SideA, double SideB, double AngleA) {
+triangle::triangle(double SideA, double SideB, double AngleB) {
 	cout << "side1= " << SideA << endl
 	     << "side2= " << SideB << endl
-	     << "angle1= " << AngleA << endl;
+	     << "angle1= " << AngleB << endl;
 	sideA = SideA;
 	sideB = SideB;
-	angleA = AngleA;
-	angleA = angleA * M_PI / 180;
+	angleB = AngleB;
+	angleB = angleB * M_PI / 180;
 }
