@@ -18,24 +18,25 @@
 using namespace std;
 
 double radToDeg(double rad) {
-	return round((rad / M_PI) * 180);
+	return (rad / M_PI) * 180;
 }
 
 void triangle::findSideC() {
 	sideC = sqrt(pow(sideB, 2) + pow(sideA, 2) - 2 * sideB * sideA * cos(angleB));
-	cout << "----Функция нахождения сторон-----" << endl;
-	cout << "Side A= " << sideA << endl;
-	cout << "Side B= " << sideB << endl;
-	cout << "Side C= " << sideC << endl;
-	cout << "------------" << endl;
+	if (sideA + sideB > sideC && sideA + sideC > sideB && sideB + sideC > sideA) {
+		cout << "----Функция нахождения сторон-----" << endl;
+		cout << "Side A= " << sideA << endl;
+		cout << "Side B= " << sideB << endl;
+		cout << "Side C= " << sideC << endl;
+		cout << "------------" << endl;
+	} else
+		throw logic_error("This is not a triangle!");
 }
 
 void triangle::findAllAngles() {
-	angleA = (pow(sideA, 2) + pow(sideC, 2) - pow(sideB, 2)) / (2.0 * sideA * sideC);
-	angleC = (pow(sideB, 2) + pow(sideC, 2) - pow(sideA, 2)) / (2.0 * sideC * sideB);
+	angleA = acos((pow(sideA,2)+pow(sideC,2)-pow(sideB,2))/(2.*sideA*sideC));
+	angleC = acos((pow(sideC,2)+pow(sideB,2)-pow(sideA,2))/(2.*sideC*sideB));
 	cout << "----Функция нахождения углов-----" << endl;
-	cout << "res " << (pow(sideC, 2) + pow(sideA, 2) - pow(sideB, 2)) / (2.0 * sideC * sideA) << endl;
-	cout << "res " << (pow(sideB, 2) + pow(sideC, 2) - pow(sideA, 2)) / (2.0 * sideC * sideB) << endl;
 	cout << "Angle A= " << radToDeg(angleA) << endl;
 	cout << "Angle B= " << radToDeg(angleB) << endl;
 	cout << "Angle C= " << radToDeg(angleC) << endl;
@@ -43,7 +44,7 @@ void triangle::findAllAngles() {
 	if ((((180 - (radToDeg(angleA) + radToDeg(angleB))) != radToDeg(angleC)) &&
 	     ((180 - (radToDeg(angleA) + radToDeg(angleC))) != radToDeg(angleB))) ||
 	    (radToDeg(angleA) + radToDeg(angleB) + radToDeg(angleC) < 179.9)) {
-		throw logic_error("UNEXPECTED RESULT");
+		throw logic_error("Чёт падазрительна, результат не правильный");
 	}
 }
 
