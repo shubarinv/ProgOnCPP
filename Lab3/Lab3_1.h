@@ -28,20 +28,47 @@ public:
 
 	triangle(double, double, double);
 
-	void findAllAngles(double *, double *);
-	void findAllAngles();
+	double findSideC();
 
-	void findSideC(double *);
-	void findSideC();
 
-	double sideA, sideB, sideC, angleA, angleB, angleC;
 	void clearBuff() {       ///< @brief Чистит буфер
 		std::cin.clear();           // Restore input stream to working state
 		std::cin.ignore(100, '\n'); // Get rid of any garbage that user might have entered}
 	}
+
+	double findAngleA();
+
+	double findAngleC();
+
+	bool CheckAnglesCorrectnesss();
+
 private:
+	double sideA, sideB, sideC, angleA, angleB, angleC;
+public:
+	double getSideB() const {
+		return sideB;
+	}
+	double getSideA() const {
+		return sideA;
+	}
 
+	double getSideC() const {
+		return sideC;
+	}
 
+	double getAngleA() const {
+		return angleA;
+	}
+
+	double getAngleB() const {
+		return angleB;
+	}
+
+	double getAngleC() const {
+		return angleC;
+	}
+
+private:
 	double findMaxAngle() {
 		if (angleA > angleB && angleA > angleC)
 			return angleA;
@@ -52,6 +79,7 @@ private:
 		else
 			throw;
 	}
+
 };
 
 #endif // PROGONCPP_LAB3_1_H

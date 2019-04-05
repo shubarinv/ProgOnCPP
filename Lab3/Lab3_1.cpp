@@ -21,35 +21,35 @@ double radToDeg(double rad) {
 	return (rad / M_PI) * 180;
 }
 
-void triangle::findSideC() {
+double triangle::findSideC() {
 	sideC = sqrt(pow(sideB, 2) + pow(sideA, 2) - 2 * sideB * sideA * cos(angleB));
 	if (sideA + sideB > sideC && sideA + sideC > sideB && sideB + sideC > sideA) {
-		cout << "----Функция нахождения сторон-----" << endl;
-		cout << "Side A= " << sideA << endl;
-		cout << "Side B= " << sideB << endl;
-		cout << "Side C= " << sideC << endl;
-		cout << "------------" << endl;
+		return sideC;
 	} else
 		throw logic_error("This is not a triangle!");
 }
 
-void triangle::findAllAngles() {
-	angleA = acos((pow(sideA,2)+pow(sideC,2)-pow(sideB,2))/(2.*sideA*sideC));
-	angleC = acos((pow(sideC,2)+pow(sideB,2)-pow(sideA,2))/(2.*sideC*sideB));
-	cout << "----Функция нахождения углов-----" << endl;
-	cout << "Angle A= " << radToDeg(angleA) << endl;
-	cout << "Angle B= " << radToDeg(angleB) << endl;
-	cout << "Angle C= " << radToDeg(angleC) << endl;
-	cout << "------------" << endl;
+bool triangle::CheckAnglesCorrectnesss() {
 	if ((((180 - (radToDeg(angleA) + radToDeg(angleB))) != radToDeg(angleC)) &&
 	     ((180 - (radToDeg(angleA) + radToDeg(angleC))) != radToDeg(angleB))) ||
 	    (radToDeg(angleA) + radToDeg(angleB) + radToDeg(angleC) < 179.9)) {
 		throw logic_error("Чёт падазрительна, результат не правильный");
 	}
+	return true;
+}
+double triangle::findAngleA(){
+	//cout<< endl << "----Функция нахождения угла A-----" << endl;
+	angleA = acos((pow(sideA,2)+pow(sideC,2)-pow(sideB,2))/(2.*sideA*sideC));
+	return angleA;
+}
+double triangle::findAngleC(){
+//	cout<< endl << "----Функция нахождения угла C-----" << endl;
+	angleC = acos((pow(sideC,2)+pow(sideB,2)-pow(sideA,2))/(2.*sideC*sideB));
+	return angleC;
 }
 
 double triangle::findHeight() {
-	cout << "----Функция нахождения высоты-----" << endl;
+	//cout << endl<< "----Функция нахождения высоты-----" << endl;
 	double p = 0.5 * (sideA + sideB + sideC);
 	double divs = findMaxAngle();
 	if (divs == angleA)
@@ -64,7 +64,9 @@ double triangle::findHeight() {
 
 bool triangle::operator==(triangle &tr) {
 	tr.findSideC();
-	tr.findAllAngles();
+	tr.findAngleA();
+	tr.findAngleC();
+	tr.CheckAnglesCorrectnesss();
 	if (sideC == tr.sideC && angleA == tr.angleA && sideA == tr.sideA)
 		return true;
 	else if (sideA == tr.sideA && angleB == tr.angleB && sideB == tr.sideB)
@@ -84,7 +86,9 @@ bool triangle::operator==(triangle &tr) {
 bool triangle::operator^(triangle &tr) {
 	cout << "----Перегрузка оператора возведения в степень-----" << endl;
 	tr.findSideC();
-	tr.findAllAngles();
+	tr.findAngleA();
+	tr.findAngleC();
+	tr.CheckAnglesCorrectnesss();
 
 	if ((angleA == tr.angleA && angleB == tr.angleB) ||
 	    (angleA == tr.angleA && angleC == tr.angleC) ||
@@ -102,13 +106,13 @@ bool triangle::operator^(triangle &tr) {
 
 triangle::triangle() {
 	double tmp;
-	cout << "Ввдите длинну стороны1: ";
+	cout << "Введите длину стороны1: ";
 	cin >> sideA;
 	clearBuff();
-	cout << endl << "Ввдите длинну стороны2: ";
+	cout << endl << "Введите длину стороны2: ";
 	cin >> sideB;
 	clearBuff();
-	cout << endl << "Ввдите угол: ";
+	cout << endl << "Введите угол: ";
 	cin >> tmp;
 	while (tmp >= 180) {
 		cout << "Не по ГОСТу" << endl;
