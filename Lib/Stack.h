@@ -16,7 +16,7 @@ private:
   struct Element {
     Tdata data;
     Element *next;
-  } * pstack, *top;
+  } * pstack;
 
 public:
   Stack() { pstack = nullptr; }
@@ -25,19 +25,11 @@ public:
 
   int Empty();
 
-  Tdata Top();
-
   Tdata Pop();
 
   int Push(Tdata x);
 
   Tdata showData();
-
-  void next();
-
-  void setData(Tdata);
-
-  void resetPstackToTop();
 };
 
 template <class Tdata> Stack<Tdata>::~Stack() {
@@ -45,14 +37,11 @@ template <class Tdata> Stack<Tdata>::~Stack() {
   while (pstack) {
     temp = pstack;
     pstack = pstack->next;
-    top = pstack->next;
     delete temp;
   }
 }
 
 template <class Tdata> int Stack<Tdata>::Empty() { return pstack == nullptr; }
-
-template <class Tdata> Tdata Stack<Tdata>::Top() { return pstack->data; }
 
 template <class Tdata> Tdata Stack<Tdata>::Pop() {
   Element *del = pstack;
@@ -68,17 +57,10 @@ template <class Tdata> int Stack<Tdata>::Push(Tdata x) {
     return 0;
   ins->data = x;
   ins->next = pstack;
-  pstack = ins;
-  top = pstack;
+  pstack = ins;;
   return 1;
 }
 
 template <class Tdata> Tdata Stack<Tdata>::showData() { return pstack->data; }
 
-template <class Tdata> void Stack<Tdata>::next() { pstack = pstack->next; }
-
-template <class Tdata> void Stack<Tdata>::setData(Tdata newData) {
-  pstack->data = newData;
-}
-template <class Tdata> void Stack<Tdata>::resetPstackToTop() { pstack = top; }
 #endif // PROGONCPP_STACK_H
