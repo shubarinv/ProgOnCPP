@@ -16,10 +16,8 @@ public:
 		cout << "Введите количество элементов в массиве: ";
 		cin >> totalAmoutOfElmnts;
 		arr = new Tdata[totalAmoutOfElmnts];
-		for (int i = 0; i <totalAmoutOfElmnts ; ++i) {
-			cin>>arr[i];
-		}
 	}
+
 
 	Tdata findMin() {
 		Tdata tmp = arr[0];
@@ -37,20 +35,34 @@ public:
 		}
 	}
 
-	void showArr() {
-		for (int i = 0; i <totalAmoutOfElmnts ; ++i) {
-			cout<<arr[i]<<"\t";
-			if(i%6==0)
-				cout<<endl;
-		}
-		cout<<endl;
+	Tdata * showArr() {
+		return arr;
 	};
-	~Lab5_1_cl(){
-		delete(arr);
+
+	~Lab5_1_cl() {
+		delete (arr);
 	}
+
+	bool addElement(Tdata dt) {
+		if (tmpI < totalAmoutOfElmnts){
+			arr[tmpI] = dt;
+			tmpI++;
+			cout<<tmpI<<"now"<<endl;
+			return true;
+		}
+		else{
+			cout<<"Cannot add more"<<endl;
+			return false;
+		}
+	}
+
 private:
 	Tdata *arr;
-	int totalAmoutOfElmnts = 0;
+	int totalAmoutOfElmnts = 0, tmpI = 0;
+public:
+	int getTotalAmoutOfElmnts() const {
+		return totalAmoutOfElmnts;
+	}
 };
 
 

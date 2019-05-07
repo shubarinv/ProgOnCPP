@@ -32,7 +32,7 @@ void drawsmth(SDL_Surface *screen,double xmin,double xmax) {
 /* Отображение графика функции отрезками */
 /* screen – инициализированная поверхность для рисования
 640 на 480 пикселей, */
-    double mx = 90, my = 3500, dx = 0.001, x1, y1, x2, y2;
+    double mx = 90, my = 3000, dx = 0.001, x1, y1, x2, y2;
     Sint16 x0scr, y0scr, xscr1, yscr1, xscr2, yscr2;
     int iter = 0,i=0;
 
@@ -106,7 +106,6 @@ int main(int argc, char *argv[]) {
     SDL_FillRect(screen, &bg, 0xfffffff);
 
     drawText(screen,text_surface,text_rect,fnt,"-5",0,screen->h / 2);
-    drawText(screen,text_surface,text_rect,fnt,"0",screen->w / 2 + 5,screen->h / 2);
     drawText(screen,text_surface,text_rect,fnt,"3",screen->w-10,screen->h / 2);
 
     SDL_Flip(screen);
@@ -117,8 +116,8 @@ int main(int argc, char *argv[]) {
     cin>>xmax;
     drawsmth(screen,xmin,xmax);
 
-    Draw_Line(screen, 0, screen->h / 2, screen->w, screen->h / 2, 0x0);
-    Draw_Line(screen, screen->w / 2, 0, screen->w / 2, screen->h, 0x0);
+   // Draw_Line(screen, 0, screen->h / 2, screen->w, screen->h / 2, 0x0);
+    //Draw_Line(screen, screen->w / 2, 0, screen->w / 2, screen->h, 0x0);
 
     while (true) // цикл перерисовки и обработки событий
     {
