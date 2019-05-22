@@ -55,7 +55,7 @@ int main() {
 				cout << "Angle B= " << radtoDeg(tr1.getAngleB()) << endl;
 				cout << "Angle C= " << radtoDeg(tr1.findAngleC()) << endl;
 				cout << "------------" << endl;
-				tr1.CheckAnglesCorrectnesss();
+				tr1.CheckAnglesCorrectness();
 				break;
 			case '3':
 				system("clear");
@@ -76,7 +76,7 @@ int main() {
 				cout << "Angle B= " << radtoDeg(tr2.getAngleB()) << endl;
 				cout << "Angle C= " << radtoDeg(tr2.findAngleC()) << endl;
 				cout << "------------" << endl;
-				tr2.CheckAnglesCorrectnesss();
+				tr2.CheckAnglesCorrectness();
 				break;
 			case '6':
 				system("clear");
@@ -108,7 +108,7 @@ int main() {
 				cout << "Angle B= " << radtoDeg(tr3.getAngleB()) << endl;
 				cout << "Angle C= " << radtoDeg(tr3.findAngleC()) << endl;
 				cout << "------------" << endl;
-				tr3.CheckAnglesCorrectnesss();
+				tr3.CheckAnglesCorrectness();
 				break;
 		}
 	}

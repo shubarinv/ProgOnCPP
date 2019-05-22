@@ -40,7 +40,7 @@ public:
 
 	double findAngleC();
 
-	bool CheckAnglesCorrectnesss();
+	bool CheckAnglesCorrectness();
 
 private:
 	double sideA, sideB, sideC, angleA, angleB, angleC;

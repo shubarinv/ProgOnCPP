@@ -29,7 +29,7 @@ double triangle::findSideC() {
 		throw logic_error("This is not a triangle!");
 }
 
-bool triangle::CheckAnglesCorrectnesss() {
+bool triangle::CheckAnglesCorrectness() {
 	if ((((180 - (radToDeg(angleA) + radToDeg(angleB))) != radToDeg(angleC)) &&
 	     ((180 - (radToDeg(angleA) + radToDeg(angleC))) != radToDeg(angleB))) ||
 	    (radToDeg(angleA) + radToDeg(angleB) + radToDeg(angleC) < 179.9)) {
@@ -66,7 +66,7 @@ bool triangle::operator==(triangle &tr) {
 	tr.findSideC();
 	tr.findAngleA();
 	tr.findAngleC();
-	tr.CheckAnglesCorrectnesss();
+	tr.CheckAnglesCorrectness();
 	if (sideC == tr.sideC && angleA == tr.angleA && sideA == tr.sideA)
 		return true;
 	else if (sideA == tr.sideA && angleB == tr.angleB && sideB == tr.sideB)
@@ -88,7 +88,7 @@ bool triangle::operator^(triangle &tr) {
 	tr.findSideC();
 	tr.findAngleA();
 	tr.findAngleC();
-	tr.CheckAnglesCorrectnesss();
+	tr.CheckAnglesCorrectness();
 
 	if ((angleA == tr.angleA && angleB == tr.angleB) ||
 	    (angleA == tr.angleA && angleC == tr.angleC) ||
