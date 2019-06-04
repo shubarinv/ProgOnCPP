@@ -43,7 +43,7 @@ public:
 	bool CheckAnglesCorrectness();
 
 private:
-	double sideA, sideB, sideC, angleA, angleB, angleC;
+	double sideA{}, sideB{}, sideC{}, angleA{}, angleB, angleC{};
 public:
 	double getSideB() const {
 		return sideB;

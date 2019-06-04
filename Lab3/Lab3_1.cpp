@@ -26,14 +26,14 @@ double triangle::findSideC() {
 	if (sideA + sideB > sideC && sideA + sideC > sideB && sideB + sideC > sideA) {
 		return sideC;
 	} else
-		throw logic_error("This is not a triangle!");
+		throw logic_error("WAIT A MINUTE! That's ain't triangle!");
 }
 
 bool triangle::CheckAnglesCorrectness() {
 	if ((((180 - (radToDeg(angleA) + radToDeg(angleB))) != radToDeg(angleC)) &&
 	     ((180 - (radToDeg(angleA) + radToDeg(angleC))) != radToDeg(angleB))) ||
 	    (radToDeg(angleA) + radToDeg(angleB) + radToDeg(angleC) < 179.9)) {
-		throw logic_error("Чёт падазрительна, результат не правильный");
+		throw logic_error("WOW, результат не правильный(Какая неожиданность)");
 	}
 	return true;
 }
