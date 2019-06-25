@@ -8,21 +8,27 @@
 
 #include "l_str.h"
 
-class L_Str_ID : public L_Str{
+class L_Str_ID : public L_Str {
 public:
 	L_Str_ID();
+
 	~L_Str_ID();
-	L_Str_ID(const char* str);
-	L_Str_ID(L_Str_ID& otherStr);
-	L_Str_ID&operator=(const L_Str_ID& otherStr);
-	L_Str_ID&operator-(const L_Str_ID& otherStr);
+
+	L_Str_ID(const char *str);
+
+	L_Str_ID(L_Str_ID &otherStr);
+
+	L_Str_ID &operator=(const L_Str_ID &otherStr);
+
+	L_Str_ID &operator-(const L_Str_ID &otherStr);
+
 	void toLower();
 
 private:
 	void checkStr();
 };
 
-L_Str_ID::L_Str_ID(): L_Str() {
+L_Str_ID::L_Str_ID() : L_Str() {
 	std::cout << "L_Str_ID()" << std::endl;
 	checkStr();
 }
@@ -31,12 +37,12 @@ L_Str_ID::~L_Str_ID() {
 	std::cout << "~L_Str_ID()" << std::endl;
 }
 
-L_Str_ID::L_Str_ID(const char *str): L_Str(str) {
+L_Str_ID::L_Str_ID(const char *str) : L_Str(str) {
 	std::cout << "L_Str_ID(const char* str)" << std::endl;
 	checkStr();
 }
 
-L_Str_ID::L_Str_ID(L_Str_ID &otherStr): L_Str(otherStr) {
+L_Str_ID::L_Str_ID(L_Str_ID &otherStr) : L_Str(otherStr) {
 	static size_t numCall = 0;
 	std::cout << "L_Str_ID(const L_Str_ID& otherStr)" << ++numCall << std::endl;
 
@@ -68,7 +74,7 @@ void L_Str_ID::checkStr() {
 }
 
 
-L_Str_ID& L_Str_ID::operator-(const L_Str_ID &otherStr) {
+L_Str_ID &L_Str_ID::operator-(const L_Str_ID &otherStr) {
 	std::cout << "operator-(const L_Str_ID& otherStr)" << std::endl;
 
 	if (m_str == nullptr || otherStr.m_str == nullptr) {
@@ -91,9 +97,9 @@ L_Str_ID& L_Str_ID::operator-(const L_Str_ID &otherStr) {
 }
 
 void L_Str_ID::toLower() {
-	int i=0;
-	while (i<GetLength()){
-		m_str[i]=tolower(m_str[i]);
+	int i = 0;
+	while (i < GetLength()) {
+		m_str[i] = tolower(m_str[i]);
 		i++;
 	}
 }

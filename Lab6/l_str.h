@@ -40,7 +40,6 @@ public:
 	void Print() const;
 
 
-
 	virtual bool Initialized() const { return (m_str != nullptr); }
 
 protected:
@@ -59,7 +58,7 @@ protected:
 
 	size_t m_cap;
 
-	char type='n';
+	char type = 'n';
 public:
 	char getType() const;
 
@@ -73,7 +72,6 @@ L_Str::L_Str() : m_cap(0), m_length(0), m_str(nullptr) {
 
 L_Str::~L_Str() {
 	cout << "~L_str()" << endl;
-
 	Clear();
 }
 
@@ -141,53 +139,47 @@ L_Str::L_Str(const L_Str &otherStr) : m_str(nullptr), m_length(otherStr.m_length
 		m_length = m_cap = 0;
 	}
 }
-void L_Str::Assign(const L_Str& otherStr){
+
+void L_Str::Assign(const L_Str &otherStr) {
 	std::cout << "Assign(const String& otherStr)" << std::endl;
 
-	if (otherStr.m_str != nullptr)
-	{
+	if (otherStr.m_str != nullptr) {
 		m_length = otherStr.m_length;
 
 
-		if (m_str == nullptr || m_cap < otherStr.m_cap)
-		{
+		if (m_str == nullptr || m_cap < otherStr.m_cap) {
 
 			Clear();
 
 
 			m_cap = otherStr.m_cap;
 
-
-			m_str = new char [m_cap];
+			m_str = new char[m_cap];
 		}
 
 
 		if (m_str != nullptr)
 			strcpy(m_str, otherStr.m_str);
-		else
-		{
+		else {
 
 			m_str = nullptr;
 			m_length = m_cap = 0;
 		}
-	}
-	else
-	{
+	} else {
 		m_str = nullptr;
 		m_length = otherStr.m_length;
 		m_cap = otherStr.m_cap;
 	}
 }
-L_Str& L_Str::operator=(const L_Str& otherStr)
-{
+
+L_Str &L_Str::operator=(const L_Str &otherStr) {
 	std::cout << "operator=(const String& otherStr)" << std::endl;
 
 	Assign(otherStr);
 	return *this;
 }
 
-void L_Str::Print() const
-{
+void L_Str::Print() const {
 	if (m_str == nullptr)
 		std::cout << "Empty string" << std::endl;
 	else

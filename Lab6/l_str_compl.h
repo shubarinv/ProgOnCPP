@@ -38,7 +38,7 @@ private:
 	double m_im;
 };
 
-L_Str_Compl::L_Str_Compl(): L_Str() {
+L_Str_Compl::L_Str_Compl() : L_Str() {
 	std::cout << "L_Str_Compl()" << std::endl;
 	check();
 }
@@ -47,7 +47,7 @@ L_Str_Compl::~L_Str_Compl() {
 	std::cout << "~L_Str_Compl()" << std::endl;
 }
 
-L_Str_Compl::L_Str_Compl(const char *str): L_Str(str) {
+L_Str_Compl::L_Str_Compl(const char *str) : L_Str(str) {
 	std::cout << "L_Str_Compl(const char* str)" << std::endl;
 	check();
 }
@@ -87,8 +87,7 @@ int L_Str_Compl::ToString() {
 
 	char bufStr[32];
 
-	if (sprintf(bufStr, "%.2lfi%.2lf", m_re, m_im) != 0)
-	{
+	if (sprintf(bufStr, "%.2lfi%.2lf", m_re, m_im) != 0) {
 		*static_cast<L_Str *>(this) = L_Str(bufStr);
 		return 0;
 	} else
@@ -112,8 +111,7 @@ L_Str_Compl L_Str_Compl::operator/(const L_Str_Compl &other) const {
 
 	L_Str_Compl res;
 
-	if (other.m_re != 0 && other.m_im != 0)
-	{
+	if (other.m_re != 0 && other.m_im != 0) {
 		double a = other.m_re * other.m_re + other.m_im * other.m_im;
 		res.m_re = (m_re * other.m_re + m_im * other.m_im) / a;
 		res.m_im = (m_im * other.m_re - m_re * other.m_im) / a;
@@ -129,8 +127,7 @@ L_Str_Compl L_Str_Compl::operator-(const L_Str_Compl &other) const {
 
 	L_Str_Compl res;
 
-	if (other.m_re != 0 && other.m_im != 0)
-	{
+	if (other.m_re != 0 && other.m_im != 0) {
 		res.m_re = m_re - other.m_re;
 		res.m_im = m_im - other.m_im;
 

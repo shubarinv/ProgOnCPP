@@ -71,12 +71,12 @@ void checkStr(L_Str *str) {
 				str->Print();
 				break;
 			case 2:
-				cout<<"Размер строки: "<<str->GetLength()<<endl;
+				cout << "Размер строки: " << str->GetLength() << endl;
 				break;
 			case 3:
 				char bufStr[32];
 				std::cout << "Введите новое значение для строки: ";
-				cin>>bufStr;
+				cin >> bufStr;
 				*str = bufStr;
 				break;
 		}
@@ -98,19 +98,19 @@ void checkStr_ID(L_Str_ID *str) {
 				str->Print();
 				break;
 			case 2:
-				cout<<"Размер строки: "<<str->GetLength()<<endl;
+				cout << "Размер строки: " << str->GetLength() << endl;
 				break;
 			case 3: {
 				char bufStr[32];
 				std::cout << "Введите новое значение для строки: ";
-				cin>>bufStr;
+				cin >> bufStr;
 				*str = bufStr;
 				break;
 			}
 			case 4: {
 				char bufStr[32];
 				std::cout << "Введите значение которое надо вычесть из строки: ";
-				cin>>bufStr;
+				cin >> bufStr;
 				*str - bufStr;
 				break;
 			}
@@ -136,26 +136,26 @@ void checkStr_Coml(L_Str_Compl *str) {
 				str->Print();
 				break;
 			case 2:
-				cout<<"Размер строки"<<str->GetLength()<<endl;
+				cout << "Размер строки" << str->GetLength() << endl;
 				break;
 			case 3: {
 				char bufStr[32];
 				std::cout << "Введите новое значение для строки: ";
-				cin>>bufStr;
+				cin >> bufStr;
 				*str = bufStr;
 				break;
 			}
 			case 4: {
 				char bufStr[32];
 				std::cout << "Введите значение которое надо вычесть из строки: ";
-				cin>>bufStr;
+				cin >> bufStr;
 				*str - bufStr;
 				break;
 			}
 			case 5: {
 				char bufStr[32];
 				std::cout << "Введите комплексное число на которое надо поделить строку: ";
-				cin>>bufStr;
+				cin >> bufStr;
 				*str / bufStr;
 				break;
 			}

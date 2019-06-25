@@ -1,6 +1,7 @@
 //
-// Created by vhund on 24.03.2019.
+// Created by vhund on 25.06.2019.
 //
+
 #include "../Lib/Stack.h"
 #include <iostream>
 
@@ -11,74 +12,69 @@ void clearBuff() {       ///< @brief Чистит буфер
 	cin.ignore(4276, '\n'); // Get rid of any garbage that user might have entered}
 }
 
-int main() {
-	int tmp;
-	cout << "Какой тип элементов массива? \n 1)float\n 2)unsigned char" << endl;
-	cin >> tmp;
-	clearBuff();
-	if (tmp == 1) {
-		Stack<float> stack;
-		float tmp_n;
-		char menu = 't';
-		while (menu != '0') {
-			cout << "1. Add Element" << endl;
-			cout << "3. show" << endl;
-			cout << "0. Quit" << endl;
-
-			cin >> menu;
-			clearBuff();
-			switch (menu) {
-				case '1':
-					system("clear");
-					cout << "Enter val. of element: " << endl;
-					cin >> tmp_n;
-					clearBuff();
-					stack.Push(tmp_n); ///< позволяет пользователю ввести элемент
-					break;
-				case '3':
-					system("clear");
-					stack.stkPrint();
-					break;
-				default:
-					break;
-			}
-		}
-		return 0;
-
-	} else if (tmp == 2) {
-		Stack<unsigned char> stack;
-		unsigned int tmp_n;
-		char menu = 'f';
-		while (menu != '0') {
-			cout << "1. Add Element" << endl;
-			cout << "3. show" << endl;
-			cout << "0. Quit" << endl;
-
-			cin >> menu;
-			clearBuff();
-			switch (menu) {
-				case '1':
-					system("clear");
-					cout << "Enter val. of element: " << endl;
-					cin >> tmp_n;
-					clearBuff();
-					stack.Push((unsigned char) tmp_n); ///< позволяет пользователю ввести элемент
-					break;
-				case '3':
-					system("clear");
-					stack.stkPrint();
-				default:
-					break;
-			}
-		}
-		return 0;
-	} else
-		throw invalid_argument("Не по ГОСТу");
-
-}
-
 template<class Tdata>
 void deleteList(Stack<Tdata> *stack) {
 	while (!stack->Empty())
 		stack->Pop();
+}
+
+template<class Tdata>
+Stack<Tdata> stack;
+
+template<class Tdata>
+Tdata tmp;
+
+int main() {
+	int iElementType;
+	cout << "Выберите тип элементов массива? \n 1)float\n 2)unsigned char" << endl;
+	cin >> iElementType;
+	clearBuff();
+	while (iElementType != 1 and iElementType != 2) {
+		cout << "Некорректный ввод, введите 1 или 2" << endl;
+		cin >> iElementType;
+		clearBuff();
+	}
+	char menu = 't';
+	while (menu != '0') {
+		cout << "1. Добавить элемент" << endl;
+		cout << "2. Показать все элементы" << endl;
+		cout << "0. Выход" << endl;
+
+		cin >> menu;
+		clearBuff();
+		switch (menu) {
+			case '1':
+				system("clear");
+				cout << "Enter val. of element: " << endl;
+				if (iElementType == 1)
+					cin >> tmp<float>;
+				else
+					scanf("%i", &tmp<unsigned char>);;
+				clearBuff();
+
+				if (iElementType == 1)
+					stack<float>.Push(tmp<float>);
+				else
+					stack<unsigned char>.Push(tmp<unsigned char>);
+
+				break;
+
+			case '2':
+				system("clear");
+				cout << "\n_______\n";
+				if (iElementType == 1)
+					stack<float>.stkPrint();
+				else
+					stack<unsigned char>.stkPrint();
+				break;
+
+			default:
+				break;
+		}
+	}
+	if (iElementType == 1)
+		deleteList(&stack<float>);
+	else
+		deleteList(&stack<unsigned char>);
+	return 0;
 }

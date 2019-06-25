@@ -1,10 +1,8 @@
-
-
-
 #include <new>
 #include <iostream>
 
-template<typename T>class Stack {
+template<typename T>
+class Stack {
 private:
 	struct Element {
 		T data;
@@ -69,11 +67,13 @@ T Stack<T>::Push(T x) {
 	pstack = ins;
 	return 1;
 }
-template<typename T> void Stack<T>::stkPrint() {
-	Element* temp=pstack;
-	while(temp!= nullptr){
-		std::cout<<temp->data<<std::endl;
-		temp=temp->next;
+
+template<typename T>
+void Stack<T>::stkPrint() {
+	Element *temp = pstack;
+	while (temp != nullptr) {
+		std::cout <<+temp->data << std::endl;
+		temp = temp->next;
 
 	}
 }
